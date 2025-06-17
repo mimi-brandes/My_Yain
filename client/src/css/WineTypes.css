@@ -1,0 +1,89 @@
+.wine-types-container {
+    background-image: url('/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    direction: rtl;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .wine-overlay {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 1200px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  
+  .wine-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #5C2E00;
+    margin-bottom: 40px;
+  }
+  .wine-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* תמיד 3 עמודות */
+    gap: 30px;
+    justify-content: center;
+  }
+  
+  
+  .wine-button {
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .wine-card {
+    background-size: contain;
+    background-position: center;
+    background-color: white;
+    border-radius: 20px;
+    height: 320px;
+    display: flex;
+    align-items: end;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .wine-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .wine-content {
+    background: rgba(255,255,255,0.95);
+    padding: 15px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    backdrop-filter: blur(1px);
+  }
+  
+  .wine-content h2 {
+    margin: 0;
+    color: #5C2E00;
+    text-align: center;
+    font-weight: 700;
+  }
+  
+  @media (max-width: 992px) {
+    .wine-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .wine-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
