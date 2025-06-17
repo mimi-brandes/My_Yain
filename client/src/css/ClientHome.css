@@ -66,14 +66,14 @@
   }
   .wine-button {
     background-image: url('/images/wine-bg.png');
-    opacity: 0.5;
+    opacity: 0.9;
     color: #5C2E00;
   }
   
   .tours-button {
     background-image: url('/images/tours-bg.png');
     color: #5C2E00;
-    opacity: 0.5;
+    opacity: 0.9;
   }
   
   .logout-button {

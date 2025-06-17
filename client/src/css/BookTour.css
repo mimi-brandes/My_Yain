@@ -1,0 +1,64 @@
+/* BookTour.css */
+.book-tour-container {
+    background-image: url('/images/background.jpg'); /* Make sure this path is correct */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    direction: ltr; /* Set direction to LTR for English content */
+  }
+  
+  .overlay {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .title {
+    font-size: 2rem;
+    color: #5C2E00;
+    margin-bottom: 10px;
+  }
+
+  .tour-name-display {
+    font-size: 1.5rem;
+    color: #7B3E19;
+    margin-bottom: 20px;
+  }
+  
+  .book-tour-form input,
+  .book-tour-form textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .book-tour-form textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .book-tour-form button {
+    background-color: #7B3E19;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .book-tour-form button:hover {
+    background-color: #5A2E13;
+  }

@@ -9,13 +9,11 @@ const Login = () => {
   const { setCurrentUser } = useContext(UserContext);
   const tryToLogin = async (e) => {
     e.preventDefault(); // מניעת רענון הדף  
-    const usersResponse = await fetchServer("/users/login", { CustomerID: e.target.CustomerID.value, PasswordC: e.target.PasswordC.value }, 'POST');
+    const usersResponse = await fetchServer("/users/login", { Tz: e.target.Tz.value, Password: e.target.Password.value }, 'POST');
     // מביא נתונים מהשרת ולבינתים י עצירה להמשך התוכנית
     if (usersResponse) {
-      // localStorage.setItem("currentUserId", JSON.stringify(usersResponse.CustomerID));
-      // setCurrentUser(usersResponse); // שמירת פרטי המשתמש ב-Context
-      // navigate('/home/users/' + usersResponse.CustomerID);
-      localStorage.setItem("currentUserId", JSON.stringify(usersResponse.CustomerID || usersResponse.ManagerID || usersResponse.GuideID));
+      localStorage.setItem("currentUserId", JSON.stringify(usersResponse.Id));
+      localStorage.setItem("type", JSON.stringify(usersResponse.userType));
       setCurrentUser(usersResponse); // שמירת פרטי המשתמש
       switch (usersResponse.userType) {
         case "Customers":
@@ -41,13 +39,16 @@ const Login = () => {
         <img src="/images/logo.png" alt="logo" className="logo" />
         <h2 className="title">נא מלא את פרטיך</h2>
         <form className="login-form" onSubmit={tryToLogin}>
-          <input type="text" name="CustomerID" placeholder="תעודת זהות" />
-          <input type="password" name="PasswordC" placeholder="סיסמה" />
+          <input type="text" name="Tz" placeholder="תעודת זהות" />
+          <input type="password" name="Password" placeholder="סיסמה" />
           <button type="submit">התחבר</button>
         </form>
         <p className="error-message" style={{ display: 'none' }}>פרטים שגויים</p>
         <p className="switch-link">
-          עדיין לא רשום? <Link to="/users/signup">הרשם</Link>
+          עדיין לא רשום?
+          <span className="spanLink" onClick={() => navigate('/users/signup')}>
+            הרשם
+          </span>
         </p>
       </div>
     </div>

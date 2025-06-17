@@ -1,29 +1,36 @@
 const usersService = require('../service/usersService');
 //הצגת משתמש
 const getUser = (req, res) => {   
-    const { CustomerID, PasswordC } = req.body;
+    console.log("📥 הגיע בקשת התחברות:", req.body);
+    const { Tz, Password } = req.body;
     console.log("Login request body:", req.body);
-    usersService.getUser(CustomerID, PasswordC, (err, user) => {
+    usersService.getUser(Tz, Password, (err, user) => {
         if (err) return res.status(500).json({ error: err });
         if (!user) return res.status(401).json({ error: 'User not found' });
         res.json(user); // מחזיר את המשתמש כולל userType
     });
 };
-// const { CustomerID, PasswordC } = req.body;
-    // usersService.getUser(CustomerID, PasswordC, (err, results) => {
-    //     if (err) return res.status(500).json({ "error": err });
-    //     res.json(results[0]);
-    // });
+const getUserById = (req, res) => {   
+    console.log("📥 הגיע בקשת התחברות:", req.body);
+    const { id,type } = req.body;
+    console.log("Login request body:", req.body);
+    usersService.getUserById(id,type, (err, user) => {
+        if (err) return res.status(500).json({ error: err });
+        if (!user) return res.status(401).json({ error: 'User not found' });
+        res.json(user); // מחזיר את המשתמש כולל userType
+    });
+};
 //יצירת משתמש
 const createUser = (req, res) => {
-    usersService.createUser(req.body, (err) => {
+    usersService.createUser(req.body, (err, newUser) => {
         if (err) return res.status(500).json({ "error": err });
-        res.status(201).json({ "message": 'המשתמש התווסף בהצלחה' });
+        res.status(201).json(newUser); // מחזירים את המשתמש שנוצר או את ה-ID
     });
 };
 module.exports = {
     getUser,
-    createUser
+    createUser,
+    getUserById
 };
 // //עדכון משתמש
 // const updateUser = (req, res) => {

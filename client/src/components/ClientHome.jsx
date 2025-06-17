@@ -1,17 +1,35 @@
 import React from 'react';
 import '../css/ClientHome.css';
-
+import { UserContext } from '../userContext';
+import { useContext, useEffect } from 'react';
+import { Outlet, replace, useNavigate } from 'react-router-dom';
 const ClientHome = () => {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+
+
+  const logout = () => {
+    localStorage.clear();
+    setCurrentUser(null);
+    navigate('/');
+    // לא צריך לנווט כאן כי ה־useEffect כבר יעיף אותו
+  };
+
   return (
     <div className="home-container">
       <img src="/images/logo.png" alt="logo" className="logo" />
       <div className="overlay">
-        <h1 className="title">שלום ל</h1>
+        <h1>שלום {currentUser ? currentUser.FullName : 'טוען...'}</h1>
         <div className="main-buttons">
-          <div className="main-button wine-button">היינות שלנו</div>
-          <div className="main-button tours-button">הסיורים שלנו</div>
+          <div className="main-button wine-button" onClick={() => navigate('/wines')}>
+            <span className="button-text">היינות שלנו</span>
+          </div>
+          <div className="main-button tours-button" onClick={() => navigate('/tours')}>
+            <span className="button-text">הסיורים שלנו</span>
+          </div>
         </div>
-        <button onClick={() => navigate('/')} className="logout-button">התנתקות</button>
+        <button onClick={logout} className="logout-button">התנתקות</button>
         <div className="contact-section">
           <h2>צור קשר</h2>
           <p>📞 052-1234567</p>
@@ -23,8 +41,17 @@ const ClientHome = () => {
             <a href="https://instagram.com" target="_blank" rel="noreferrer">
               <img src="/images/instagram.png" alt="Instagram" />
             </a>
+            <a
+              href="https://wa.me/972545212931"
+              target="_blank"
+              rel="noreferrer"
+              className="whatsapp-link"
+              title="צור קשר בווטסאפ"
+            >
+              <img src="/images/whatsapp.png" alt="WhatsApp" style={{ width: '40px', height: '40px' }} />
+            </a>
             <a href="https://maps.google.com?q=MyYain" target="_blank" rel="noreferrer">
-              📍 מיקום בגוגל מפות
+              📍 להגיע אלינו
             </a>
           </div>
         </div>

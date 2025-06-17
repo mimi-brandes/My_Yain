@@ -1,0 +1,164 @@
+.order-wines-container {
+    background-image: url('/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    direction: ltr; 
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #5C2E00;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+.order-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #5C2E00;
+    text-align: center;
+    font-weight: 700;
+}
+
+.filter-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #7B3E19;
+    color: #5C2E00;
+}
+
+.wine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.wine-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s;
+    border: 1px solid #ccc;
+}
+
+.wine-card:hover {
+    transform: scale(1.05);
+}
+
+.wine-image {
+    width: 100%;
+    height: 200px;
+    background-size: contain;
+    background-color: white;
+    background-position: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.wine-info {
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.wine-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #5C2E00;
+    margin-bottom: 8px;
+}
+
+.wine-price {
+    font-weight: 600;
+    color: #7B3E19;
+    margin-bottom: 12px;
+}
+
+.quantity-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.quantity-button {
+    background-color: #7B3E19;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    padding: 4px 10px;
+    cursor: pointer;
+    user-select: none;
+    width: 28px;
+    height: 28px;
+    font-weight: bold;
+}
+
+.quantity-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.quantity-display {
+    font-size: 1.1rem;
+    min-width: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.cart-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #7B3E19;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+.add-to-cart-button {
+    margin-top: auto;
+    padding: 8px 16px;
+    background-color: #5C2E00;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+
+.add-to-cart-button:hover {
+    background-color: #7a3f00;
+}
