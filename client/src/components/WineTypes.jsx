@@ -2,36 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { fetchServer } from '../service/server';
 import { baseURL } from '../config';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from './CartContext';
 import '../css/WineTypes.css';
 
 const WineTypes = () => {
   const navigate = useNavigate();
   const [wineTypes, setWineTypes] = useState([]);
+  const { cart } = useCart();
 
   useEffect(() => {
-    fetchServer('/wines')  // נניח שה-API מחזיר את כל סוגי היין
-      .then(data => {
-        if (data) setWineTypes(data);
-      });
+    fetchServer('/wines')
+      .then(data => data && setWineTypes(data));
   }, []);
+
+  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
 
   return (
     <div className="wine-types-container">
+      <button className="cart-button" title="Go to Cart" onClick={() => navigate('/cart')}>
+        🛒 {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
+      </button>
+
       <div className="wine-overlay">
         <h1 className="wine-title">אנא בחר את סוג היין שאותו תרצה להזמין</h1>
         <div className="wine-grid">
-          {wineTypes.map((wine, index) => (
+          {wineTypes.map(wine => (
             <button
-              key={index}
-              onClick={() =>
-                navigate('/order-wine', {
-                  state: {
-                    wineTypeID: wine.WineTypeID,
-                    wineTypeName: wine.WineTypeName
-                  }
-                })
-              }
+              key={wine.WineTypeID}
               className="wine-button"
+              onClick={() => navigate('/order-wine', {
+                state: { wineTypeID: wine.WineTypeID, wineTypeName: wine.WineTypeName }
+              })}
             >
               <div
                 className="wine-card"

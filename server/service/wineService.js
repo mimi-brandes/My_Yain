@@ -1,6 +1,5 @@
 const db = require('../db/connection');
 
-// שליפת כל סוגי היינות עם תמונה
 const getAllWineTypes = (callback) => {
   const sql = `
     SELECT WineTypes.WineTypeID, WineTypes.WineTypeName, Images.ImageURL 
@@ -8,30 +7,40 @@ const getAllWineTypes = (callback) => {
     JOIN Images ON WineTypes.ImageID = Images.ImageID;
   `;
   db.query(sql, (err, results) => {
-    if (err) {
-      console.error("🚨 שגיאה בשליפת סוגי יין:", err.message);
-      return callback(err);
-    }
-    callback(results);
+    if (err) return callback(err, null);
+    callback(null, results);
   });
 };
-// יינות לפי סוג יין
+
 const getWinesByType = (wineTypeID, callback) => {
   const sql = `
-    SELECT Wines.WineID, Wines.WineName, Wines.Price, Images.ImageURL, Wines.StockQuantity
-    FROM Wines
-    JOIN Images ON Wines.ImageID = Images.ImageID
-    WHERE Wines.WineTypeID = ?
+    SELECT WineProducts.WineID, WineProducts.WineName, WineProducts.Price, Images.ImageURL, WineProducts.Quantity AS StockQuantity
+    FROM WineProducts
+    JOIN Images ON WineProducts.ImageID = Images.ImageID
+    WHERE WineProducts.WineTypeID = ?
   `;
   db.query(sql, [wineTypeID], (err, results) => {
-    if (err) {
-      console.error("🚨 שגיאה בשליפת יינות לפי סוג:", err.message);
-      return callback(err);
-    }
-    callback(results);
+    if (err) return callback(err, null);
+    callback(null, results);
   });
 };
+
+const getWinesByIDs = (ids, callback) => {
+  const sql = `
+    SELECT WineProducts.WineID, WineProducts.WineName, WineProducts.Price,
+           Images.ImageURL
+    FROM WineProducts
+    JOIN Images ON WineProducts.ImageID = Images.ImageID
+    WHERE WineProducts.WineID IN (?)
+  `;
+  db.query(sql, [ids], (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results);
+  });
+};
+
 module.exports = {
   getAllWineTypes,
-  getWinesByType
+  getWinesByType,
+  getWinesByIDs
 };

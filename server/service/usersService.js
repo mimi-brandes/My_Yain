@@ -32,7 +32,7 @@ const getUser = (Tz, Password, callback) => {
 const getUserById = (id,type, callback) => {
     console.log("🔍 בודק משתמש עם ת", id,type);
 
-    const sql = `SELECT * FROM Customers WHERE id = ?`;
+    const sql = `SELECT * FROM Customers WHERE Id = ?`;
     db.query(sql, [id], (err, results) => {
         if (err) {
             console.log("❌ שגיאה במסד נתונים:", err);

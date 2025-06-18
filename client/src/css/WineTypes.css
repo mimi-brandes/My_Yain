@@ -54,11 +54,9 @@
     overflow: hidden;
     position: relative;
   }
-  
   .wine-card:hover {
     transform: scale(1.05);
   }
-  
   .wine-content {
     background: rgba(255,255,255,0.95);
     padding: 15px;
