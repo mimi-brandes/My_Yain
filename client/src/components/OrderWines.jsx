@@ -6,15 +6,15 @@ import { useCart } from './CartContext';
 import '../css/OrderWines.css';
 
 function OrderWines() {
-  const { state }  = useLocation();
-  const navigate   = useNavigate();
-  const wineTypeID   = state?.wineTypeID;
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const wineTypeID = state?.wineTypeID;
   const wineTypeName = state?.wineTypeName;
 
-  const [wines, setWines]           = useState([]);
+  const [wines, setWines] = useState([]);
   const [quantities, setQuantities] = useState({});
-  const [filter, setFilter]         = useState('default');
-  const { cart, addToCart }         = useCart();
+  const [filter, setFilter] = useState('default');
+  const { cart, addToCart } = useCart();
 
   /* --- שליפת יינות --- */
   useEffect(() => {
@@ -41,12 +41,12 @@ function OrderWines() {
 
   /* --- מיון --- */
   let displayedWines = [...wines];
-  if (filter === 'price-asc')   displayedWines.sort((a, b) => a.Price - b.Price);
-  if (filter === 'price-desc')  displayedWines.sort((a, b) => b.Price - a.Price);
-  if (filter === 'name-asc')    displayedWines.sort((a, b) => a.WineName.localeCompare(b.WineName));
-  if (filter === 'name-desc')   displayedWines.sort((a, b) => b.WineName.localeCompare(a.WineName));
+  if (filter === 'price-asc') displayedWines.sort((a, b) => a.Price - b.Price);
+  if (filter === 'price-desc') displayedWines.sort((a, b) => b.Price - a.Price);
+  if (filter === 'name-asc') displayedWines.sort((a, b) => a.WineName.localeCompare(b.WineName));
+  if (filter === 'name-desc') displayedWines.sort((a, b) => b.WineName.localeCompare(a.WineName));
 
-  const cartCount = Object.values(cart).reduce((a,b)=>a+b,0);
+  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
 
   return (
     <div className="order-wines-container">
@@ -70,16 +70,16 @@ function OrderWines() {
         </select>
       </div>
 
-      <div className="wine-grid">
+      <div className="wineOrder-grid">
         {displayedWines.map(wine => (
-          <div key={wine.WineID} className="wine-card">
+          <div key={wine.WineID} className="wineOrder-card">
             <div
-              className="wine-image"
+              className="wineOrder-image"
               style={{ backgroundImage: `url(${baseURL}/${wine.ImageURL})` }}
             />
-            <div className="wine-info">
-              <div className="wine-name">{wine.WineName}</div>
-              <div className="wine-price">₪{parseFloat(wine.Price).toFixed(2)}</div>
+            <div className="wineOrder-info">
+              <div className="wineOrder-name">{wine.WineName}</div>
+              <div className="wineOrder-price">₪{parseFloat(wine.Price).toFixed(2)}</div>
 
               <div className="quantity-control">
                 <button
@@ -92,7 +92,7 @@ function OrderWines() {
 
                 <button
                   className="quantity-button"
-                  onClick={() => updateQuantity(wine.WineID,  1)}
+                  onClick={() => updateQuantity(wine.WineID, 1)}
                   disabled={(quantities[wine.WineID] || 0) >= wine.StockQuantity}
                   title={`Stock: ${wine.StockQuantity}`}
                 >+</button>

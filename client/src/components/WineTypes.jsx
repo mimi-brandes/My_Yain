@@ -25,7 +25,7 @@ const WineTypes = () => {
 
       <div className="wine-overlay">
         <h1 className="wine-title">אנא בחר את סוג היין שאותו תרצה להזמין</h1>
-        <div className="wine-grid">
+        <div className="wineTypes-grid">
           {wineTypes.map(wine => (
             <button
               key={wine.WineTypeID}
@@ -35,7 +35,7 @@ const WineTypes = () => {
               })}
             >
               <div
-                className="wine-card"
+                className="wineType-card"
                 style={{ backgroundImage: `url(${baseURL}/${wine.ImageURL})` }}
               >
                 <div className="wine-content">

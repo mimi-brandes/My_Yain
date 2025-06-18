@@ -25,6 +25,12 @@
     color: #5C2E00;
     margin-bottom: 40px;
   }
+  .tour-grid button {
+    all: unset;
+    display: block;
+    cursor: pointer;
+    border-radius: 20px;
+  }
   
   .tour-grid {
     display: grid;
