@@ -39,8 +39,25 @@ const getWinesByIDs = (ids, callback) => {
   });
 };
 
+const createSale = (customerID, cartItems, endPrice, callback) => {
+  const sqlSale = `INSERT INTO Sales (CustomerID, EndPrice) VALUES (?, ?)`;
+  db.query(sqlSale, [customerID, endPrice], (err, result) => {
+    if (err) return callback(err);
+    const saleID = result.insertId;
+
+    const values = cartItems.map(item => [saleID, item.productID, item.quantity]);
+    const sqlItems = `INSERT INTO ProductsSold (SoldId, ProductId, Quantity) VALUES ?`;
+
+    db.query(sqlItems, [values], (err2) => {
+      if (err2) return callback(err2);
+      callback(null, saleID);
+    });
+  });
+};
+
 module.exports = {
   getAllWineTypes,
   getWinesByType,
-  getWinesByIDs
+  getWinesByIDs,
+  createSale
 };

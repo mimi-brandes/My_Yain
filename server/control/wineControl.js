@@ -1,4 +1,5 @@
 const wineService = require('../service/wineService');
+
 /** כל סוגי היין */
 const getAllWineTypes = async (req, res) => {
   try {
@@ -35,7 +36,7 @@ const getWinesByType = async (req, res) => {
 /** שליפת פרטי יינות לפי מערך IDs (לסל) */
 const getWinesByIDs = async (req, res) => {
   try {
-    const { ids } = req.body;        // צפי: { ids:[1,2,3] }
+    const { ids } = req.body;
     if (!Array.isArray(ids) || ids.length === 0) {
       return res.status(400).json({ error: 'ids array required' });
     }
@@ -52,8 +53,29 @@ const getWinesByIDs = async (req, res) => {
   }
 };
 
+/** יצירת מכירה חדשה */
+const createSale = async (req, res) => {
+  try {
+    const { customerID, cartItems, endPrice } = req.body;
+    if (!customerID || !Array.isArray(cartItems) || cartItems.length === 0 || !endPrice) {
+      return res.status(400).json({ error: 'Missing sale data' });
+    }
+    wineService.createSale(customerID, cartItems, endPrice, (err, result) => {
+      if (err) {
+        console.error('Error creating sale:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      res.json({ message: 'Sale completed', saleID: result });
+    });
+  } catch (err) {
+    console.error('Error in createSale:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   getAllWineTypes,
   getWinesByType,
-  getWinesByIDs
+  getWinesByIDs,
+  createSale
 };

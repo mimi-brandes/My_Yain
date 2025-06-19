@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchServer } from '../service/server';
-import { UserContext } from '../userContext';
+ import { UserContext } from '../userContext';
 import '../css/BookTour.css';
 function validateBookingInputs({ groupSize, tourDate, tourHour }) {
   // בדיקת מספר אנשים בקבוצה - חייב להיות מספר חיובי גדול מ-0
@@ -91,18 +91,17 @@ const BookTour = () => {
       CustomerID:currentUser?.Id,
     };
     console.log("Booking Details:", bookingDetails);
-    try {
+   
       // נשלח את פרטי ההזמנה לשרת
       const response = await fetchServer('/tours/book', bookingDetails, 'POST'); // נניח שהנתיב הוא 'tours/book'
+      if(!response){
+        alert("There was an error booking your tour. Please try again.");
+      }
       if (response) {
         alert(`Thank you for booking the ${tourType} tour!`);
         navigate('/client-home'); // נווט לדף הצלחה או דף הבית של הלקוח
       }
-    } 
-    catch (error) {
-      console.error("Error booking tour:", error);
-      alert("There was an error booking your tour. Please try again.");
-    }
+    
   };
 
   return (
@@ -133,3 +132,5 @@ const BookTour = () => {
 };
 
 export default BookTour;
+
+

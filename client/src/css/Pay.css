@@ -33,4 +33,7 @@
   .checkout-button:hover {
     background-color: #a90e0e;
   }
-  
+.scrollable-container {
+  max-height: 100vh;
+  overflow-y: auto;
+}
