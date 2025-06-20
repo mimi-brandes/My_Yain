@@ -11,7 +11,7 @@ const WineTypes = () => {
   const { cart } = useCart();
 
   useEffect(() => {
-    fetchServer('/wines')
+    fetchServer('/wines/types')
       .then(data => data && setWineTypes(data));
   }, []);
 
