@@ -14,6 +14,7 @@ import OrderWines from './components/OrderWines.jsx';
 import Cart from './components/Cart.jsx';
 import Pay from './components/pay.jsx';
 import { CartProvider } from './components/CartContext.jsx';
+import GuideTours from './components/GuideTours.jsx'; 
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: 'order-wine', element: <OrderWines /> },
       { path: 'cart', element: <Cart /> },
       { path: 'pay', element: <Pay /> },
+      { path: 'guide-tours', element: <GuideTours /> },
     ],
   },
 ]);
