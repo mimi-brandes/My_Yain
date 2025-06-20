@@ -100,9 +100,23 @@ function UserProvider({ children }) {
 
         if (usersResponse) {
           setCurrentUser(usersResponse);
+          console.log(usersResponse);
           if (location.pathname === '/') {
-            navigate('/client-home');
+            switch (usersResponse.userType) {
+              case "Customers":
+                navigate('/client-home');
+                break;
+              case "Managers":
+                navigate('/managers-home');
+                break;
+              case "Guides":
+                navigate('/guides-home');
+                break;
+              default:
+                navigate('/');
+            }
           }
+          
         } else {
           localStorage.removeItem('currentUserId');
           navigate('/', { replace: true });

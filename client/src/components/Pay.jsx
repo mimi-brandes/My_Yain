@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
-import { UserContext } from '../UserContext';
+import { UserContext } from '../userContext';
 import { fetchServer } from '../service/server';
 import '../css/Pay.css';
 

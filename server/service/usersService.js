@@ -1,52 +1,39 @@
 const db = require('../db/connection');
 // קבלת משתמש 
 const getUser = (Tz, Password, callback) => {
-    console.log("🔍 בודק משתמש עם ת", Tz, "וסיסמה:", Password);
-    const queries = [
-        { table: 'Customers', idField: 'Tz', passwordField: 'Password' },
-        { table: 'Managers', idField: 'Tz', passwordField: 'Password' },
-        { table: 'Guides', idField: 'Tz', passwordField: 'Password' }
-    ];
-    const checkNext = (index) => {
-        if (index >= queries.length) return callback(null, null); // לא נמצא
-        const q = queries[index];
-        const sql = `SELECT * FROM ${q.table} WHERE ${q.idField} = ? AND ${q.passwordField} = ?`;
-        db.query(sql, [Tz, Password], (err, results) => {
-            if (err) {
-                console.log("❌ שגיאה במסד נתונים:", err);
-                return callback(err);
-            }
-            if (results.length > 0) {
-                const user = results[0];
-                user.userType = q.table;
-                return callback(null, user);
-            } else {
-                checkNext(index + 1);
-            }
-        });
-    };
-
-    checkNext(0);
-};
-
-const getUserById = (id,type, callback) => {
-    console.log("🔍 בודק משתמש עם ת", id,type);
-
-    const sql = `SELECT * FROM Customers WHERE Id = ?`;
-    db.query(sql, [id], (err, results) => {
-        if (err) {
-            console.log("❌ שגיאה במסד נתונים:", err);
-            return callback(err);
-        }
-        if (results.length > 0) {
-            const user = results[0];
-            user.userType ='customer';
-            return callback(null, user);
-        };
-
-
+    const sql = `SELECT * FROM AllUsers WHERE Tz = ? AND Password = ? LIMIT 1`;
+  
+    db.query(sql, [Tz, Password], (err, results) => {
+      if (err) {
+        console.error("❌ שגיאה במסד הנתונים:", err);
+        return callback(err);
+      }
+  
+      if (results.length > 0) {
+        return callback(null, results[0]); // כולל userType
+      } else {
+        return callback(null, null); // לא נמצא
+      }
     });
-};
+  };
+
+  const getUserById = (id,type,callback) => {
+    const sql = `SELECT * FROM AllUsers WHERE Id = ? LIMIT 1`;
+    db.query(sql, [id], (err, results) => {
+      if (err) {
+        console.error("❌ שגיאה במסד נתונים:", err);
+        return callback(err);
+      }
+  
+      if (results.length > 0) {
+        const user = results[0]; // כולל userType
+        return callback(null, user);
+      } else {
+        return callback(null, null); // לא נמצא
+      }
+    });
+  };
+  
 
 // יצירת משתמש חדש
 const createUser = (userData, callback) => {

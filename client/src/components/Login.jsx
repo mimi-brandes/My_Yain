@@ -23,7 +23,7 @@ const Login = () => {
           navigate('/managers/home'); // ניצור את הנתיב הזה
           break;
         case "Guides":
-          navigate('/guides/home'); // גם את זה ניצור
+          navigate('/guides-home'); // גם את זה ניצור
           break;
         default:
           alert("סוג משתמש לא מזוהה");

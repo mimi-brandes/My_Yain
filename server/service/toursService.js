@@ -166,5 +166,21 @@ const bookTour = (data, callback) => {
     }
   });
 };
+const getToursByGuide = (guideID, callback) => {
+  const sql = `
+  SELECT Tours.*, TourTypes.TourTypeName, Images.ImageURL
+  FROM Tours
+  JOIN TourTypes ON Tours.TourTypeID = TourTypes.TourTypeID
+  JOIN Images ON TourTypes.ImageID = Images.ImageID
+  WHERE GuideID = ?;
+`;
 
-module.exports = { getAllTours, bookTour };
+  db.query(sql, [guideID], (err, results) => {
+    if (err) {
+      console.error("❌ שגיאה בשליפת סיורים למדריך:", err.message);
+      return callback(err);
+    }
+    callback(null, results);
+  });
+};
+module.exports = { getAllTours, bookTour,getToursByGuide };

@@ -19,4 +19,20 @@ const bookTour = (req, res) => {
     res.status(201).json(newBooking); // מחזירים את פרטי ההזמנה שנוצרה
   });
 };
-module.exports = { getAllTours,bookTour };
+const getToursByGuide = async (req, res) => {
+  const guideID = req.params.Id;
+  try {
+    toursService.getToursByGuide(guideID, (err, tours) => {
+      if (err) {
+        console.error('Error fetching tours for guide:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      res.json(tours);
+    });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+module.exports = { getAllTours,bookTour,getToursByGuide};

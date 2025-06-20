@@ -4,51 +4,47 @@ import { UserContext } from '../userContext';
 import '../css/GuideTours.css';
 
 const GuideTours = () => {
-  const { currentUser } = useContext(UserContext); // נניח שיש שם GuideID
+  const { currentUser } = useContext(UserContext);
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
-    const getTours = async () => {
-      const allTours = await fetchServer('/tours'); // מביא את כל הסיורים
-      if (allTours && currentUser?.Id) {
-        const myTours = allTours.filter(t => t.GuideID === currentUser.Id);
-        setTours(myTours);
-      }
+    if (!currentUser) return;
+
+    const fetchTours = async () => {
+      const data = await fetchServer(`/tours/guide/${currentUser.Id}`); // לפי מזהה מדריך
+      if (data) setTours(data);
     };
-    getTours();
+
+    fetchTours();
   }, [currentUser]);
 
   return (
     <div className="guide-tours-container">
       <h1 className="guide-tours-title">הסיורים שלי</h1>
-      {tours.length === 0 ? (
-        <p>אין סיורים להצגה.</p>
-      ) : (
-        <table className="tours-table">
-          <thead>
-            <tr>
-              <th>תאריך</th>
-              <th>שעה</th>
-              <th>קבוצה</th>
-              <th>מס׳ אנשים</th>
-              <th>סוג סיור</th>
-              <th>הערות</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tours.map((tour) => (
-              <tr key={tour.TourID}>
-                <td>{new Date(tour.TourDate).toLocaleDateString('he-IL')}</td>
-                <td>{tour.TourHour?.substring(0,5)}</td>
+      <table className="tours-table">
+        <thead>
+          <tr>
+            <th>תאריך</th>
+            <th>שעה</th>
+            <th>שם קבוצה</th>
+            <th>מס׳ משתתפים</th>
+            <th>סוג סיור</th>
+            <th>הערות</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tours.map(tour => (
+            <tr key={tour.TourID}>
+               <td>{new Date(tour.TourDate).toLocaleDateString('he-IL')}</td>
+                <td>{tour.TourHour?.slice(0, 5)}</td>
                 <td>{tour.GroupName}</td>
                 <td>{tour.GroupSize}</td>
-                <td>{tour.TourTypeName || tour.TourTypeID}</td>
-                <td>{tour.Notes || '-'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+                <td>{tour.TourTypeName}</td>
+                <td>{tour.Notes || 'no notes'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
