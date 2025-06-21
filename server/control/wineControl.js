@@ -72,10 +72,26 @@ const createSale = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
+// יצירת יין חדש
+const createWine = async (req, res) => {
+  try {
+    const { wineName, price, quantity,wineTypeID,imageFile } = req.body;
+    wineService.createWine(wineName, price, quantity,wineTypeID,imageFile, (err, result) => {
+      if (err) {
+        console.error('Error creating wine:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      res.json({ message: 'wine completed', wineID: result });
+    });
+  } catch (err) {
+    console.error('Error in createWine:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 module.exports = {
   getAllWineTypes,
   getWinesByType,
   getWinesByIDs,
-  createSale
+  createSale,
+  createWine
 };

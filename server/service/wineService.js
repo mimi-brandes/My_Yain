@@ -54,10 +54,25 @@ const createSale = (customerID, cartItems, endPrice, callback) => {
     });
   });
 };
+const createWine = (wineName, price, quantity,wineTypeID,imageFile, callback) => {
+  alert(wineTypeID);
+  const sqlImage = `INSERT INTO Images (ImageURL) VALUES (?)`;
+  db.query(sqlImage, [imageFile], (err, result) => {
+    if (err) return callback(err);
+    const ImageID = result.insertId;
 
+    const sqlItems = `INSERT INTO WineProducts (WineName, WineTypeID, ImageID,Quantity,Price) VALUES (?,?,?,?,?)`;
+
+    db.query(sqlItems, [wineName, wineTypeID,ImageID,quantity,price], (err2) => {
+      if (err2) return callback(err2);
+      callback(null, saleID);
+    });
+  });
+};
 module.exports = {
   getAllWineTypes,
   getWinesByType,
   getWinesByIDs,
-  createSale
+  createSale,
+  createWine
 };
