@@ -1,8 +1,8 @@
 import React from 'react';
-import '../css/ClientHome.css';
 import { UserContext } from '../userContext';
-import { useContext, useEffect } from 'react';
-import { Outlet, replace, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../css/ClientHome.css';
 const ClientHome = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -11,7 +11,6 @@ const ClientHome = () => {
     localStorage.clear();
     setCurrentUser(null);
     navigate('/');
-    // לא צריך לנווט כאן כי ה־useEffect כבר יעיף אותו
   };
 
   return (
@@ -19,7 +18,6 @@ const ClientHome = () => {
       <img src="/images/logo.png" alt="logo" className="logo" />
       <div className="overlay">
         <h1>שלום {currentUser ? currentUser.FullName : 'טוען...'}</h1>
-        {console.log(currentUser)}
         <div className="main-buttons">
           <div className="main-button wine-button1" onClick={() => navigate('/wines')}>
             <span className="button-text">היינות שלנו</span>

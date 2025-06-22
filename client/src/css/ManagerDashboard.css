@@ -7,7 +7,7 @@
 
 .manager-table-page h2 {
   margin-bottom: 1.5rem;
-  color: #5C2E00; /* בורדו כהה */
+  color: #5C2E00; 
 }
 
 .dynamic-table {
@@ -50,11 +50,11 @@
 }
 
 .edit-btn {
-  color: #4CAF50; /* ירוק */
+  color: #4CAF50; 
 }
 
 .delete-btn {
-  color: #7B3E19; /* בורדו */
+  color: #7B3E19; 
 }
 
 .edit-btn:hover,
@@ -69,7 +69,7 @@
     padding: 0.5rem;
   }
 }
-/* סגנון לשדות אינפוט בטבלה בזמן עריכה */
+
 .dynamic-table input[type="text"] {
   width: 100%;
   padding: 5px;
@@ -81,18 +81,25 @@
   color: #5C2E00;
 }
 
-/* אנימציית פוקוס לשדה */
 .dynamic-table input[type="text"]:focus {
   outline: none;
   border-color: #4CAF50;
   background-color: #ffffff;
 }
 
-/* כפתורי שמירה וביטול */
+
 .save-btn {
-  color: #4CAF50; /* ירוק */
+  color: #4CAF50; 
 }
 
 .cancel-btn {
-  color: #d9534f; /* אדום/בורדו */
+  color: #d9534f; 
+}
+.logo {
+  width: 100px;
+  animation: spin 10s linear infinite;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }

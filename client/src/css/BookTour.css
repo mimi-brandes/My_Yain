@@ -1,15 +1,20 @@
-/* BookTour.css */
 .book-tour-container {
-    background-image: url('/images/background.jpg'); /* Make sure this path is correct */
+    background-image: url('/images/background.jpg'); 
     background-size: cover;
     background-position: center;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    direction: ltr; /* Set direction to LTR for English content */
+    direction: ltr; 
   }
-  
+  .logo {
+    width: 100px;
+    animation: spin 10s linear infinite;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
   .overlay {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 40px;

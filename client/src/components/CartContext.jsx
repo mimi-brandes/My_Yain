@@ -5,7 +5,7 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({});   // { wineID: quantity }
-
+  //הוספת פריט לסל
   const addToCart = (wineID, qty) => {
     if (qty <= 0) return;
     setCart(prev => ({
@@ -13,7 +13,8 @@ export const CartProvider = ({ children }) => {
       [wineID]: (prev[wineID] || 0) + qty
     }));
   };
-
+  
+  //מחיקת פריט מהסל
   const removeFromCart = (wineID) => {
     setCart(prev => {
       const next = { ...prev };
@@ -21,12 +22,16 @@ export const CartProvider = ({ children }) => {
       return next;
     });
   };
+
+  //עידכון כמות לפריט מהסל
   const updateCartQuantity = (wineID, qty) => {
     setCart(prev => ({
       ...prev,
       [wineID]: qty > 0 ? qty : 0
     }));
   };
+  
+  //ניקוי הסל
   const clearCart = () => setCart({});
 
   return (

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../css/Login.css';
 import { UserContext } from '../userContext';
 import { useContext } from 'react';
 import { fetchServer } from '../service/server';
+import '../css/Login.css';
 const Login = () => {
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext);
@@ -17,13 +17,13 @@ const Login = () => {
       setCurrentUser(usersResponse); // שמירת פרטי המשתמש
       switch (usersResponse.userType) {
         case "Customers":
-          navigate('/client-home'); // שים לב - אותיות קטנות
+          navigate('/client-home'); 
           break;
         case "Managers":
-          navigate('/managers-home'); // ניצור את הנתיב הזה
+          navigate('/managers-home'); 
           break;
         case "Guides":
-          navigate('/guides-home'); // גם את זה ניצור
+          navigate('/guides-home'); 
           break;
         default:
           alert("סוג משתמש לא מזוהה");

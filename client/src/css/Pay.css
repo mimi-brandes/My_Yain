@@ -37,3 +37,11 @@
   max-height: 100vh;
   overflow-y: auto;
 }
+.logo {
+  width: 50px;
+  animation: spin 10s linear infinite;
+  border-radius: 50%;
+  position: absolute;
+  top:2px;
+  left: 20px;
+}

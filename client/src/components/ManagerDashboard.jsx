@@ -88,7 +88,10 @@ const ManagerDashboard = () => {
     const columns = allColumns.filter(col => col !== idColumn);
 
     return (
+      <div className='manager-dashboard-container'>
+      <img src="/images/logo.png" alt="logo" className="logo" />
       <table className="dynamic-table">
+        
         <thead>
           <tr>
             {columns.map((col, idx) => (
@@ -135,6 +138,7 @@ const ManagerDashboard = () => {
           })}
         </tbody>
       </table>
+      </div>
     );
   };
 

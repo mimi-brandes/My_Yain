@@ -144,3 +144,11 @@
   .open-modal-button:hover {
     background-color: #5A2E13;
   }
+  .logo {
+    width: 100px;
+    animation: spin 10s linear infinite;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }

@@ -49,4 +49,11 @@
   .tours-table tr:hover {
     background-color: #f1f1f1;
   }
-  
+  .logo {
+    width: 100px;
+    animation: spin 10s linear infinite;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }

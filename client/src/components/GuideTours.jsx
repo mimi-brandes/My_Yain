@@ -9,17 +9,16 @@ const GuideTours = () => {
 
   useEffect(() => {
     if (!currentUser) return;
-
     const fetchTours = async () => {
       const data = await fetchServer(`/tours/guide/${currentUser.Id}`); // לפי מזהה מדריך
       if (data) setTours(data);
     };
-
     fetchTours();
   }, [currentUser]);
 
   return (
     <div className="guide-tours-container">
+      <img src="/images/logo.png" alt="logo" className="logo" />
       <h1 className="guide-tours-title">הסיורים שלי</h1>
       <table className="tours-table">
         <thead>

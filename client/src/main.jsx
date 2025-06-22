@@ -18,12 +18,13 @@ import GuideTours from './components/GuideTours.jsx';
 import GuideHome from './components/GuideHome.jsx';
 import AddWine from './components/AddWine.jsx';
 import ManagerHome from './components/ManegerHome.jsx';
+import ManagerDashboard from './components/ManagerDashboard.jsx';
 const router = createBrowserRouter([
   {
       path: '/',
       element: (
         <UserProvider>
-          <CartProvider> {/* ✨ עוטפים גם ב-CartProvider */}
+          <CartProvider> 
             <App />
           </CartProvider>
         </UserProvider>
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       { path: 'guides-home', element: <GuideHome />},
       { path: 'add-wine', element: <AddWine />},
       { path: 'managers-home', element: <ManagerHome />},
+      { path: 'manager-dashboard', element: <ManagerDashboard />},
     ],
   },
 ]);

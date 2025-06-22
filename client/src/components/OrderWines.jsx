@@ -50,8 +50,10 @@ function OrderWines() {
 
   return (
     <div className="order-wines-container">
+      <img src="/images/logo.png" alt="logo" className="logo" />
       <button className="cart-button" title="Go to Cart" onClick={() => navigate('/cart')}>
-        🛒 {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
+        <span className="cart-icon">🛒</span>
+        {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
       </button>
 
       <h1 className="order-title">Our Wines - {wineTypeName}</h1>

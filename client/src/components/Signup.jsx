@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { useContext } from 'react';
 import { fetchServer } from '../service/server';
+//פונקציה בדיקות תקינות להרשמה
 function validateFormInputs({ Tz, FullName, Email, Password, Phone, Age, BirthDate }) {
      if (!Tz || !FullName || !Email || !Password || !Phone || !Age || !BirthDate) {
           return "אנא מלא את כל השדות";
@@ -105,7 +106,7 @@ const Signup = () => {
                     </form>
                     <p className="switch-link">
                          כבר מחובר?
-                         <span className="spanLink" onClick={() => navigate('/users/login')}>
+                         <span className="spanLink" onClick={() => navigate('/managers-home')}>
                               התחבר
                          </span>
                     </p>

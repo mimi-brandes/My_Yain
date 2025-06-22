@@ -12,7 +12,7 @@ function validateBookingInputs({ groupSize, tourDate, tourHour }) {
   // בדיקת תאריך התור
   const today = new Date();
   const selectedDate = new Date(tourDate);
-
+  
   // אפס את השעות, הדקות והשניות של התאריך שנבחר כדי להשוות רק תאריכים בלי זמן
   selectedDate.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
@@ -90,7 +90,6 @@ const BookTour = () => {
       TourTypeID:TourTypeID,
       CustomerID:currentUser?.Id,
     };
-    console.log("Booking Details:", bookingDetails);
    
       // נשלח את פרטי ההזמנה לשרת
       const response = await fetchServer('/tours/book', bookingDetails, 'POST'); // נניח שהנתיב הוא 'tours/book'
@@ -107,6 +106,7 @@ const BookTour = () => {
   return (
     <div className="book-tour-container">
       <div className="overlay">
+      <img src="/images/logo.png" alt="logo" className="logo" />
         <h1 className="title">Please fill in the details for the tour:</h1>
         <h2 className="tour-name-display">{tourType}</h2>
         <form className="book-tour-form" onSubmit={handleSubmit}>
@@ -132,5 +132,3 @@ const BookTour = () => {
 };
 
 export default BookTour;
-
-

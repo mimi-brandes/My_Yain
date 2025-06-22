@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { baseURL } from '../config';
 import '../css/Cart.css';
 
-
 const Cart = () => {
   const { cart, clearCart, updateCartQuantity, removeFromCart } = useCart();
   const [items, setItems] = useState([]);
@@ -27,13 +26,21 @@ const Cart = () => {
   const subtotal = items.reduce((sum, i) => sum + i.Price * i.qty, 0);
   const shipping = subtotal === 0 || subtotal >= 349 ? 0 : 40;
   const total = subtotal + shipping;
-
-  if (items.length === 0) return <h2 style={{direction:'rtl',padding:'2rem'}}>הסל ריק</h2>;
+  //בעת לחיצה על ניקוי הסל
+  if (items.length === 0) {
+    return (
+      <div className="cart-container">
+       <img src="/images/logo.png" alt="logo" className="logo" />
+        <h2>הסל שלך ריק</h2>
+        <button className="checkout-btn" onClick={() => navigate('/order-wine')}>חזור להזמנה</button>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-container">
+      <img src="/images/logo.png" alt="logo" className="logo" />
       <h1 className="cart-title">סל הקניות שלך</h1>
-
       <table className="cart-table">
         <thead>
           <tr>

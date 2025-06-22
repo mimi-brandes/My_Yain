@@ -19,10 +19,11 @@ const WineTypes = () => {
 
   return (
     <div className="wine-types-container">
+      <img src="/images/logo.png" alt="logo" className="logo" />
       <button className="cart-button" title="Go to Cart" onClick={() => navigate('/cart')}>
-        🛒 {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
+        <span className="cart-icon">🛒</span>
+        {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
       </button>
-
       <div className="wine-overlay">
         <h1 className="wine-title">אנא בחר את סוג היין שאותו תרצה להזמין</h1>
         <div className="wineTypes-grid">

@@ -391,6 +391,7 @@ const AddWine = () => {
   return (
     <div className="add-wine-container">
       <div className="add-wine-overlay">
+      <img src="/images/logo.png" alt="logo" className="logo" />
         <h1 className="add-wine-title">Please complete the wine details:</h1>
         <form className="add-wine-form" onSubmit={handleSubmit}>
           <input type="text" name="WineName" placeholder="Wine Name" value={wineName} onChange={(e) => setWineName(e.target.value)} required />
