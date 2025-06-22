@@ -20,7 +20,7 @@ const Login = () => {
           navigate('/client-home'); // שים לב - אותיות קטנות
           break;
         case "Managers":
-          navigate('/managers/home'); // ניצור את הנתיב הזה
+          navigate('/managers-home'); // ניצור את הנתיב הזה
           break;
         case "Guides":
           navigate('/guides-home'); // גם את זה ניצור

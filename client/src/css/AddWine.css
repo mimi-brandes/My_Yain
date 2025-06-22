@@ -1,6 +1,5 @@
-/* AddWine.css */
 .add-wine-container {
-    background-image: url('/images/background.jpg'); /* Make sure this path is correct */
+    background-image: url('/images/background.jpg');
     background-size: cover;
     background-position: center;
     min-height: 100vh;
@@ -130,4 +129,18 @@
     margin-bottom: 5px;
     text-align: left;
   }
+  .open-modal-button {
+    margin-top: 20px;
+    padding: 10px 16px;
+    font-size: 1rem;
+    background-color: #7B3E19;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
   
+  .open-modal-button:hover {
+    background-color: #5A2E13;
+  }

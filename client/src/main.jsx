@@ -17,7 +17,7 @@ import { CartProvider } from './components/CartContext.jsx';
 import GuideTours from './components/GuideTours.jsx'; 
 import GuideHome from './components/GuideHome.jsx';
 import AddWine from './components/AddWine.jsx';
-
+import ManagerHome from './components/ManegerHome.jsx';
 const router = createBrowserRouter([
   {
       path: '/',
@@ -42,6 +42,7 @@ const router = createBrowserRouter([
       { path: 'guide-tours', element: <GuideTours /> },
       { path: 'guides-home', element: <GuideHome />},
       { path: 'add-wine', element: <AddWine />},
+      { path: 'managers-home', element: <ManagerHome />},
     ],
   },
 ]);

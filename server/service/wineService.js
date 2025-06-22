@@ -54,18 +54,40 @@ const createSale = (customerID, cartItems, endPrice, callback) => {
     });
   });
 };
-const createWine = (wineName, price, quantity,wineTypeID,imageFile, callback) => {
-  alert(wineTypeID);
+// const createWine = (wineName, price, quantity,wineTypeID,imageFile, callback) => {
+//   const sqlImage = `INSERT INTO Images (ImageURL) VALUES (?)`;
+//   db.query(sqlImage, [imageFile], (err, result) => {
+//     if (err) return callback(err);
+//     const ImageID = result.insertId;
+
+//     const sqlItems = `INSERT INTO WineProducts (WineName, WineTypeID, ImageID,Quantity,Price) VALUES (?,?,?,?,?)`;
+
+//     db.query(sqlItems, [wineName, wineTypeID,ImageID,quantity,price], (err2) => {
+//       if (err2) return callback(err2);
+//       callback(null,  result.insertId);
+//     });
+//   });
+// };
+const createWine = (wineName, price, quantity, wineTypeID, imageFile, callback) => {
   const sqlImage = `INSERT INTO Images (ImageURL) VALUES (?)`;
   db.query(sqlImage, [imageFile], (err, result) => {
-    if (err) return callback(err);
+    if (err) {
+      console.error("❌ Error inserting into Images:", err);
+      return callback(err);
+    }
+
     const ImageID = result.insertId;
+    console.log("✅ Inserted image with ID:", ImageID);
 
-    const sqlItems = `INSERT INTO WineProducts (WineName, WineTypeID, ImageID,Quantity,Price) VALUES (?,?,?,?,?)`;
+    const sqlItems = `INSERT INTO WineProducts (WineName, WineTypeID, ImageID, Quantity, Price) VALUES (?,?,?,?,?)`;
+    db.query(sqlItems, [wineName, wineTypeID, ImageID, quantity, price], (err2, result2) => {
+      if (err2) {
+        console.error("❌ Error inserting into WineProducts:", err2);
+        return callback(err2);
+      }
 
-    db.query(sqlItems, [wineName, wineTypeID,ImageID,quantity,price], (err2) => {
-      if (err2) return callback(err2);
-      callback(null, saleID);
+      console.log("✅ Wine added with ID:", result2.insertId);
+      callback(null, result2.insertId);
     });
   });
 };
