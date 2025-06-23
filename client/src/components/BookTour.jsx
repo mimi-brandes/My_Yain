@@ -49,13 +49,13 @@ const BookTour = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
-  const { tourType, PricePerPerson,TourTypeID } = location.state || { tourType: 'Unknown Tour', PricePerPerson: 0 ,TourTypeID:''};
-  console.log(TourTypeID);
+  const { tourType, PricePerPerson,TourTypeID ,TypeMnager} = location.state || { tourType: 'Unknown Tour', PricePerPerson: 0 ,TourTypeID:'',TypeMnager:''};
   // מצב חדש לשמירת כמות האנשים
   const [groupSize, setGroupSize] = useState("");
   // מצב חדש לשמירת סך התשלום
   const [totalPrice, setTotalPrice] = useState(0);
   // useEffect שירוץ בכל פעם ש-groupSize או PricePerPerson משתנים
+  console.log(TypeMnager);
   useEffect(() => {
     const size = parseInt(groupSize); // המר את groupSize למספר שלם
     if (!isNaN(size) && size > 0 && PricePerPerson > 0) {
@@ -98,7 +98,9 @@ const BookTour = () => {
       }
       if (response) {
         alert(`Thank you for booking the ${tourType} tour!`);
-        navigate('/client-home'); // נווט לדף הצלחה או דף הבית של הלקוח
+        if(TypeMnager==''){navigate('/client-home');}
+        else {navigate('/manager-dashboard', { state: { type: 'tours' } });}
+        
       }
     
   };

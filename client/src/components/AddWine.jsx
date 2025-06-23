@@ -286,6 +286,7 @@
 // export default AddWine;
 import React, { useState, useEffect } from 'react';
 import { fetchServer } from '../service/server';
+import { useNavigate } from 'react-router-dom';
 import '../css/AddWine.css';
 
 function validateWineInputs({ name, price, quantity, wineTypeID, imageFile }) {
@@ -309,7 +310,7 @@ const AddWine = () => {
   const [newWineTypeName, setNewWineTypeName] = useState('');
   const [newWineTypeImage, setNewWineTypeImage] = useState(null);
   const [isAddingType, setIsAddingType] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchWineTypes = async () => {
       const types = await fetchServer('/wines/types');
@@ -346,6 +347,7 @@ const AddWine = () => {
       const response = await fetchServer('/wines/add', formData, 'POST');
       if (!response.ok) throw new Error('Failed to add wine');
       alert('Wine added successfully!');
+      navigate('/manager-dashboard', { state: { type: 'wines' } });
     } catch (error) {
       alert('An error occurred while adding the wine.');
     }

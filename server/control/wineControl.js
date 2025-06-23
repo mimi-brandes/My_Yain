@@ -102,8 +102,6 @@ const createWine = async (req, res) => {
     const wineTypeID = parseInt(req.body.wineTypeID);
     const imageFile = req.body.imageFile;
 
-    console.log("BODY RECEIVED:", req.body);
-
     wineService.createWine(wineName, price, quantity, wineTypeID, imageFile, (err, wineID) => {
       if (err) {
         console.error('❌ Error creating wine:', err);

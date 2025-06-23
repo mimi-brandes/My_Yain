@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { fetchServer } from '../service/server';
 import { baseURL } from '../config';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import '../css/TourTypes.css';
 
 const TourTypes = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const {TypeMnager } = location.state || {TypeMnager:''};
   const [tours, setTours] = useState([]);
+  console.log(TypeMnager);
   useEffect(() => {
     fetchServer('/tours')
       .then(data => {
@@ -20,7 +23,7 @@ const TourTypes = () => {
         <h1 className="tour-title">Please choose a tour type</h1>
         <div className="tour-grid">
           {tours.map((tour, index) => (
-            <button key={index} onClick={()=>navigate('/book-tour', { state: { tourType: tour.TourTypeName,PricePerPerson:tour.PricePerPerson,TourTypeID:tour.TourTypeID } })}>
+            <button key={index} onClick={()=>navigate('/book-tour', { state: { tourType: tour.TourTypeName,PricePerPerson:tour.PricePerPerson,TourTypeID:tour.TourTypeID ,TypeMnager:TypeMnager} })}>
               {console.log(tour.TourTypeID)}
               <div
                 className="tour-card"

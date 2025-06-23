@@ -34,8 +34,11 @@ const ManagerHome = () => {
           <div className="manager-button customers-button" onClick={() => navigate('/manager-dashboard', { state: { type: 'customers' } })}>
             <span className="manager-button-text">לקוחות</span>
           </div>
-          <div className="manager-button orders-button" onClick={() => navigate('manager-dashboard', { state: { type: 'orders' } })}>
+          <div className="manager-button orders-button" onClick={() => navigate('/manager-dashboard', { state: { type: 'sales' } })}>
             <span className="manager-button-text">הזמנות</span>
+          </div>
+          <div className="manager-button orders-button" onClick={() => navigate('/manager-dashboard', { state: { type: 'productsSold' } })}>
+            <span className="manager-button-text">יינות שנמכרו</span>
           </div>
         </div>
         <button className="manager-logout-button" onClick={logout}>התנתקות</button>

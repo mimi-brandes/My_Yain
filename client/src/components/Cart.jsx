@@ -32,7 +32,7 @@ const Cart = () => {
       <div className="cart-container">
        <img src="/images/logo.png" alt="logo" className="logo" />
         <h2>הסל שלך ריק</h2>
-        <button className="checkout-btn" onClick={() => navigate('/order-wine')}>חזור להזמנה</button>
+        <button className="checkout-btn" onClick={() => navigate('/wines')}>חזור להזמנה</button>
       </div>
     );
   }

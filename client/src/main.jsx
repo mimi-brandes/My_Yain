@@ -19,6 +19,7 @@ import GuideHome from './components/GuideHome.jsx';
 import AddWine from './components/AddWine.jsx';
 import ManagerHome from './components/ManegerHome.jsx';
 import ManagerDashboard from './components/ManagerDashboard.jsx';
+import SignupManagerOrGuide from './components/SignupManagerOrGuide.jsx';
 const router = createBrowserRouter([
   {
       path: '/',
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
       { path: 'add-wine', element: <AddWine />},
       { path: 'managers-home', element: <ManagerHome />},
       { path: 'manager-dashboard', element: <ManagerDashboard />},
+      { path: 'signup-manager-or-guide', element: <SignupManagerOrGuide />},
     ],
   },
 ]);

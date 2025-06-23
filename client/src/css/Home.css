@@ -1,6 +1,6 @@
-body, html {
+/* body, html {
   overflow-y: hidden;
-}
+} */
 .home-container {
     background-image: url('/images/background.jpg');
     background-size: cover;

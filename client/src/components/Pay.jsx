@@ -102,7 +102,7 @@ const Pay = () => {
   return (
     <div className="image-button-container">
       <img src="/images/logo.png" alt="logo" className="logo" />
-      {/* Optional image: <img src="/images/pay.png" alt="Pay" className="main-image" /> */}
+     <img src="/images/pay.png" alt="Pay" className="main-image" />
       <button className="checkout-button" onClick={handleClick}>Pay Now</button>
     </div>
   );
