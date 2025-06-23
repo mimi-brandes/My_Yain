@@ -154,7 +154,6 @@ const updateTour = (TourID, tourData, callback) => {
     GuideName,
     TourTypeName
   } = tourData;
-console.log(TourDate);
 const cleanTourDate = TourDate ? new Date(TourDate).toISOString().slice(0, 10) : null;
 
   // תחילה - מקבלים את ה-IDs לפי השמות
@@ -189,27 +188,7 @@ const cleanTourDate = TourDate ? new Date(TourDate).toISOString().slice(0, 10) :
     );
   });
 };
-// מחיקת יין כולל מחיקת התמונה שלו
-// const deleteWine = (wineID, callback) => {
-//   const getImageIDSql = 'SELECT ImageID FROM WineProducts WHERE WineID = ?';
 
-//   db.query(getImageIDSql, [wineID], (err, results) => {
-//     if (err) return callback(err);
-//     if (!results || results.length === 0) return callback(new Error("לא נמצא יין למחיקה"));
-
-//     const imageID = results[0].ImageID;
-
-//     const deleteWineSql = 'DELETE FROM WineProducts WHERE WineID = ?';
-//     db.query(deleteWineSql, [wineID], (err) => {
-//       if (err) return callback(err);
-
-//       const deleteImageSql = 'DELETE FROM Images WHERE ImageID = ?';
-//       db.query(deleteImageSql, [imageID], callback);
-//     });
-//   });
-// };
-
-// service
 const deleteWine = (wineID, callback) => {
   const getImageIDSql = 'SELECT ImageID FROM WineProducts WHERE WineID = ?';
 
@@ -255,6 +234,91 @@ const deleteCustomer = (Id, callback) => {
   const sql = 'DELETE FROM Customers WHERE Id=?';
   db.query(sql, [Id], callback);
 };
+// כל סוגי היין
+const getAllWineTypes = (callback) => {
+  const sql = `
+    SELECT wt.WineTypeID, wt.WineTypeName, wt.ImageID, img.ImageURL
+    FROM WineTypes wt
+    JOIN Images img ON wt.ImageID = img.ImageID;
+  `;
+  db.query(sql, (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results);
+  });
+};
+
+// עדכון סוג יין
+const updateWineType = (WineTypeID, wineTypeData, callback) => {
+  const { WineTypeName, ImageID } = wineTypeData;
+  const sql = `UPDATE WineTypes SET WineTypeName = ?, ImageID = ? WHERE WineTypeID = ?`;
+  db.query(sql, [WineTypeName, ImageID, WineTypeID],  (err, results) => {
+    if (err) return callback(err);
+    callback(null, results);
+  });
+};
+
+// מחיקת סוג יין
+const deleteWineType = (WineTypeID, callback) => {
+  // חשוב לוודא שאין יינות התלויים בסוג הזה לפני מחיקה
+  const checkSql = `SELECT COUNT(*) AS count FROM WineProducts WHERE WineTypeID = ?`;
+  db.query(checkSql, [WineTypeID], (err, results) => {
+    if (err) return callback(err);
+    if (results[0].count > 0) {
+      const error = new Error("לא ניתן למחוק סוג יין שיש לו יינות קשורים");
+      error.code = 'RELATED_PRODUCTS_EXIST';  // ניתן להוסיף קוד שגיאה מותאם
+      return callback(error);
+    }
+
+    // מחיקת סוג יין
+    const deleteSql = `DELETE FROM WineTypes WHERE WineTypeID = ?`;
+    db.query(deleteSql, [WineTypeID], callback);
+  });
+};
+
+// --- סוגי סיור ---
+
+// כל סוגי הסיורים
+const getAllTourTypes = (callback) => {
+  const sql = `
+    SELECT tt.TourTypeID, tt.TourTypeName, tt.DescriptionT, tt.PricePerPerson, tt.ImageID, img.ImageURL
+    FROM TourTypes tt
+    JOIN Images img ON tt.ImageID = img.ImageID;
+  `;
+  db.query(sql, (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results);
+  });
+};
+
+// עדכון סוג סיור
+const updateTourType = (TourTypeID, tourTypeData, callback) => {
+  const { TourTypeName, DescriptionT, PricePerPerson, ImageID } = tourTypeData;
+  const sql = `UPDATE TourTypes SET TourTypeName = ?, DescriptionT = ?, PricePerPerson = ?, ImageID = ? WHERE TourTypeID = ?`;
+  db.query(sql, [TourTypeName, DescriptionT, PricePerPerson, ImageID, TourTypeID], (err, results) => {
+    if (err) return callback(err);
+    callback(null, results);
+  }
+);
+};
+
+// מחיקת סוג סיור
+const deleteTourType = (TourTypeID, callback) => {
+  // חשוב לוודא שאין סיורים התלויים בסוג הזה לפני מחיקה
+  const checkSql = `SELECT COUNT(*) AS count FROM Tours WHERE TourTypeID = ?`;
+  db.query(checkSql, [TourTypeID], (err, results) => {
+    if (err) return callback(err);
+    if (results[0].count > 0) 
+    {
+      const error = new Error("לא ניתן למחוק סוג סיור שיש לו סיורים קשורים");
+      error.code = 'RELATED_PRODUCTS_EXIST';  // ניתן להוסיף קוד שגיאה מותאם
+      return callback(error);
+    }
+
+    // מחיקת סוג סיור
+    const deleteSql = `DELETE FROM TourTypes WHERE TourTypeID = ?`;
+    db.query(deleteSql, [TourTypeID], callback);
+  });
+};
 
 module.exports = {
   getAllWines,
@@ -275,5 +339,11 @@ module.exports = {
   deleteTour,
   deleteGuide,
   deleteManager,
-  deleteCustomer
+  deleteCustomer,
+  getAllWineTypes,
+  updateWineType,
+  deleteWineType,
+  getAllTourTypes,
+  updateTourType,
+  deleteTourType,
 }

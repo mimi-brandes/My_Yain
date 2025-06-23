@@ -1,29 +1,51 @@
-import React, { createContext, useContext, useState,useEffect } from 'react';
-
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { UserContext } from '../userContext';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState({});  
-    // 🟡 טוען את הסל מה-localStorage כאשר האפליקציה עולה
-    useEffect(() => {
-      const savedCart = localStorage.getItem('cart');
+  const { currentUser } = useContext(UserContext);
+  const [cart, setCart] = useState({});
+
+
+  useEffect(() => {
+    if (currentUser?.Id) {
+      const key = `cart-${currentUser.Id}`;
+      const savedCart = localStorage.getItem(key);
       if (savedCart) {
         try {
-          setCart(JSON.parse(savedCart));
+          const parsedCart = JSON.parse(savedCart);
+          if (typeof parsedCart === 'object' && parsedCart !== null) {
+            setCart(parsedCart);
+          } else {
+            console.warn('סל לא תקין, איפוס');
+            localStorage.removeItem(key);
+          }
         } catch (e) {
-          console.error('סל לא תקין ב-localStorage:', e);
-          localStorage.removeItem('cart');
+          console.error('שגיאה בטעינת הסל:', e);
+          localStorage.removeItem(key);
         }
+      } else {
+        setCart({}); // אין סל שמור
       }
-    }, []);
-  
-    // 🟢 שומר את הסל ב-localStorage בכל שינוי
-    useEffect(() => {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }, [cart]);
-  //הוספת פריט לסל
+    }
+  }, [currentUser]);
+
+  // 🟢 שמירת הסל ב-localStorage בכל שינוי
+  useEffect(() => {
+    if (currentUser?.Id) {
+      try {
+        localStorage.setItem(`cart-${currentUser.Id}`, JSON.stringify(cart));
+      } catch (e) {
+        console.error("לא ניתן לשמור את הסל ב-localStorage:", e);
+        alert("העגלה גדולה מדי. ננקה אותה כדי למנוע בעיה.");
+        setCart({});
+      }
+    }
+  }, [cart, currentUser]);
+
+  // הוספת פריט
   const addToCart = (wineID, qty) => {
     if (qty <= 0) return;
     setCart(prev => ({
@@ -31,29 +53,29 @@ export const CartProvider = ({ children }) => {
       [wineID]: (prev[wineID] || 0) + qty
     }));
   };
-  
-  //מחיקת פריט מהסל
+
+  // הסרה
   const removeFromCart = (wineID) => {
     setCart(prev => {
-      const next = { ...prev };
-      delete next[wineID];
-      return next;
+      const updated = { ...prev };
+      delete updated[wineID];
+      return updated;
     });
   };
 
-  //עידכון כמות לפריט מהסל
+  // עדכון כמות
   const updateCartQuantity = (wineID, qty) => {
     setCart(prev => ({
       ...prev,
       [wineID]: qty > 0 ? qty : 0
     }));
   };
-  
-  //ניקוי הסל
+
+  // ניקוי
   const clearCart = () => setCart({});
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart,updateCartQuantity, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateCartQuantity, clearCart }}>
       {children}
     </CartContext.Provider>
   );

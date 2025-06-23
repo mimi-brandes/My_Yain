@@ -95,12 +95,8 @@ const createWine = async (req, res) => {
 };
 const addWinetypes = async (req, res) => {
   try {
-    
     const WineTypeName = req.body.WineTypeName;
     const ImageURL = req.body.ImageURL;
-    console.log(WineTypeName);
-    console.log(ImageURL);
-
     wineService.addWinetypes(WineTypeName, ImageURL, (err, wineID) => {
       if (err) {
         console.error('❌ Error creating wine type:', err);

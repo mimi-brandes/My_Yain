@@ -16,78 +16,6 @@ const getAllTours = (callback) => {
   });
 };
 
-// // הזמנת סיור
-// const bookTour = (data, callback) => {
-//   const { groupSize, groupName, tourHour, tourDate, notes, TourTypeID, CustomerID } = data;
-
-
-//   // בדיקת נתונים חסרים
-//   if (!groupSize || !groupName || !tourHour || !tourDate || !TourTypeID || !CustomerID) {
-//     console.error("❌ נתונים חסרים:", { groupSize, groupName, tourHour, tourDate, TourTypeID, CustomerID });
-//     return callback("נתונים חסרים בהזמנה");
-//   }
-
-//   // קריאה לפרוצדורה שמחזירה מדריך פנוי
-//   const procCall = `
-//     CALL AssignGuideForTour(?, ?, @out_GuideID, @out_error);
-//     SELECT @out_GuideID AS GuideID, @out_error AS Err;
-//   `;
-// console.log(procCall);
-//   db.query(procCall, [tourDate, tourHour], (err, results) => {
-//     if (err) {
-//       console.error("❌ שגיאה בבחירת מדריך:", err);
-//       return callback("שגיאה בבחירת מדריך. ודא שהפרוצדורה קיימת ופועלת כראוי.");
-//     }
-
-//     try {
-//       const out = results[1]?.[0];
-
-//       if (!out) {
-//         console.error("⚠️ לא התקבלה תשובה מהפרוצדורה AssignGuideForTour");
-//         return callback("שגיאה פנימית: לא התקבלה תשובה מהפרוצדורה");
-//       }
-
-//       if (out.Err) {
-//         console.error("⚠️ שגיאת מדריך:", out.Err);
-//         return callback(out.Err);
-//       }
-
-//       const GuideID = out.GuideID;
-//       if (!GuideID) {
-//         console.error("❌ GuideID ריק למרות שאין שגיאה בפרוצדורה");
-//         return callback("שגיאה פנימית: לא נבחר מדריך למרות שאין שגיאה בפרוצדורה");
-//       }
-
-//       console.log("🧭 מדריך שנבחר:", GuideID);
-
-//       // הכנסת ההזמנה לטבלת Tours
-//       const sqlInsert = `
-//         INSERT INTO Tours 
-//         (groupSize, groupName, tourHour, tourDate, notes, TourTypeID, CustomerID, GuideID) 
-//         VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-//       `;
-
-//       db.query(
-//         sqlInsert,
-//         [groupSize, groupName, tourHour, tourDate, notes, TourTypeID, CustomerID, GuideID],
-//         (err2, result) => {
-//           if (err2) {
-//             console.error("❌ שגיאה בהזמנת סיור:", err2.message, err2.sqlMessage);
-//             return callback("שגיאה בהזמנת סיור. אנא נסה שוב מאוחר יותר.");
-//           }
-
-//           callback(null, {
-//             bookingId: result.insertId,
-//             message: "✅ הסיור הוזמן בהצלחה!"
-//           });
-//         }
-//       );
-//     } catch (e) {
-//       console.error("❌ חריגה בעת עיבוד תוצאת הפרוצדורה:", e);
-//       return callback("שגיאה פנימית בעת עיבוד התוצאה מהפרוצדורה");
-//     }
-//   });
-// };
 // הזמנת סיור
 const bookTour = (data, callback) => {
   const { groupSize, groupName, tourHour, tourDate, notes, TourTypeID, CustomerID } = data;
@@ -183,4 +111,22 @@ const updateTourFeedback = (data, callback) => {
       `;
       db.query(sql,[GuideFeedback,TourID ],callback);
     } ;
-module.exports = { getAllTours, bookTour,getToursByGuide,updateTourFeedback };
+    const addTourType = (TourTypeName,DescriptionT,PricePerPerson, ImageURL, callback) => {
+      const sqlImage = `INSERT INTO Images (ImageURL) VALUES (?)`;
+      db.query(sqlImage, [ImageURL], (err, result) => {
+        if (err) {
+          console.error("❌ Error inserting into Images:", err);
+          return callback(err);
+        }
+        const ImageID = result.insertId;
+        const sqlItems = `INSERT INTO tourtypes (TourTypeName,DescriptionT,PricePerPerson, ImageID) VALUES (?,?,?,?)`;
+        db.query(sqlItems, [TourTypeName,DescriptionT,PricePerPerson,ImageID], (err2, result2) => {
+          if (err2) {
+            console.error("❌ Error inserting into tourtypes:", err2);
+            return callback(err2);
+          }
+          callback(null, result2.insertId);
+        });
+      });
+    };
+module.exports = { getAllTours, bookTour,getToursByGuide,updateTourFeedback,addTourType };

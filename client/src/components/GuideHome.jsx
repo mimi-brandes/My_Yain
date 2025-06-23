@@ -4,14 +4,10 @@ import { UserContext } from '../userContext';
 import '../css/GuideHome.css';
 
 const GuideHome = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, logout} = useContext(UserContext);
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear();
-    setCurrentUser(null);
-    navigate('/');
-  };
+  
 
   return (
     <div className="guide-home-container">

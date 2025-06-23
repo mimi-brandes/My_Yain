@@ -61,7 +61,7 @@ const AddWine = () => {
       const response = await fetchServer('/wines/add', formData, 'POST');
       if (!response.ok) throw new Error('Failed to add wine');
       alert('Wine added successfully!');
-      navigate('/manager-dashboard', { state: { type: 'wines' } });
+      navigate('/manager-dashboard/wines', { state: { type: 'wines' } });
     } catch (error) {
       alert('An error occurred while adding the wine.');
     }
@@ -107,6 +107,11 @@ const AddWine = () => {
   return (
     <div className="add-wine-container">
       <div className="add-wine-overlay">
+        <div className="back-button-container">
+          <button className="back-button" onClick={() => navigate('/manager-dashboard/wines')}>
+            חזרה
+          </button>
+        </div>
         <img src="/images/logo.png" alt="logo" className="logo" />
         <h1 className="add-wine-title">Please complete the wine details:</h1>
         <form className="add-wine-form" onSubmit={handleSubmit}>

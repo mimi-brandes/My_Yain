@@ -70,4 +70,24 @@ const getToursByGuide = async (req, res) => {
           res.status(500).json({ error: 'שגיאה פנימית בשרת' });
         }
       };
-module.exports = { getAllTours,bookTour,getToursByGuide,updateTourFeedback};
+      const addTourType = async (req, res) => {
+        try {
+          
+          const TourTypeName = req.body.TourTypeName;
+          const DescriptionT = req.body.DescriptionT;
+          const PricePerPerson = parseFloat(req.body.PricePerPerson);
+          const ImageURL = req.body.ImageURL;
+          toursService.addTourType(TourTypeName,DescriptionT,PricePerPerson, ImageURL, (err, typeID) => {
+            if (err) {
+              console.error('❌ Error creating tour type:', err);
+              return res.status(500).json({ ok: false, error: 'Internal server error' });
+            }
+      
+            res.json({ ok: true, typeID,message: 'tour type added successfully' });
+          });
+        } catch (err) {
+          console.error('❌ Error in createTourType:', err);
+          res.status(500).json({ ok: false, error: 'Unexpected error' });
+        }
+      };
+module.exports = { getAllTours,bookTour,getToursByGuide,updateTourFeedback,addTourType};

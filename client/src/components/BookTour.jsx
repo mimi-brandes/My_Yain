@@ -111,13 +111,21 @@ const BookTour = () => {
       if (TypeMnager == '') {
         navigate('/client-home');
       } else {
-        navigate('/manager-dashboard', { state: { type: 'tours' } });
+        navigate('/manager-dashboard/tours', { state: { type: 'tours' } });
       }
   };
 
   return (
     <div className="book-tour-container">
       <div className="overlay">
+      <div className="back-button-container">
+          <button className="back-button" onClick={() => navigate('/tours')}>
+            בחירת סוג סיור שונה
+          </button>
+          <button className="back-button" onClick={() => navigate('/client-home')}>
+            חזרה לדף הבית
+          </button>
+        </div>
       <img src="/images/logo.png" alt="logo" className="logo" />
         <h1 className="title">Please fill in the details for the tour:</h1>
         <h2 className="tour-name-display">{tourType}</h2>

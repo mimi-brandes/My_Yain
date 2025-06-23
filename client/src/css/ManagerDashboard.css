@@ -287,3 +287,6 @@
 .back-button:hover {
   background-color: #a50000;
 }
+.back-button:not(:last-child) {
+  margin-right: 10px;
+}

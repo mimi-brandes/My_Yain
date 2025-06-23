@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       { path: 'guides-home', element: <GuideHome />},
       { path: 'add-wine', element: <AddWine />},
       { path: 'managers-home', element: <ManagerHome />},
-      { path: 'manager-dashboard', element: <ManagerDashboard />},
+      { path: 'manager-dashboard/:initialType', element: <ManagerDashboard />},
       { path: 'signup-manager-or-guide', element: <SignupManagerOrGuide />},
     ],
   },

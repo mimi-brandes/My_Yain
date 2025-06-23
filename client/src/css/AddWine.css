@@ -148,3 +148,25 @@
     top: 20px;
     left: 20px;
   }
+  .back-button-floating {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .back-button {
+    background-color: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .back-button:hover {
+    background-color: #a50000;
+  }
+  

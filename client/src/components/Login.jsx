@@ -46,7 +46,7 @@ const Login = () => {
         <p className="error-message" style={{ display: 'none' }}>פרטים שגויים</p>
         <p className="switch-link">
           עדיין לא רשום?
-          <span className="spanLink" onClick={() => navigate('/add-wine')}>
+          <span className="spanLink" onClick={() => navigate('/users/signup')}>
             הרשם
           </span>
         </p>

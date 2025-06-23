@@ -24,7 +24,6 @@ const SignupManagerOrGuide = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const TypeMnager = location.state?.TypeMnager || '';
-  const returnToType = location.state?.returnToType || '';
 
   const [formData, setFormData] = useState({
     Tz: '',
@@ -66,7 +65,6 @@ const SignupManagerOrGuide = () => {
       if (TypeMnager === '') { typeToSent = 'guides'; }
       else { typeToSent = 'managers'; }
        navigate('/manager-dashboard', { state: { type: typeToSent } });
-      // navigate('/manager-dashboard', { state: { type: returnToType } });
     } catch (err) {
       alert('שגיאה בהרשמה');
       console.error('Error in handleSubmit:', err);
@@ -77,6 +75,17 @@ const SignupManagerOrGuide = () => {
     <div className="signup-container">
       <img src="/images/logo.png" alt="Logo" className="logo" />
       <div className="overlay">
+      <div className="back-button-container" style={{ marginBottom: '10px' }}>
+          <button 
+            className="back-button" 
+            onClick={() => {
+              if (TypeMnager === 'yes') {
+                navigate('/manager-dashboard/managers');
+              } else {
+                navigate('/manager-dashboard/guides'); 
+              }
+            }}>חזרה</button>
+        </div>
         <h2 className="title">הרשמת {TypeMnager === '' ? 'מדריך' : 'מנהל'}</h2>
         <form className="signup-form" onSubmit={handleSubmit}>
           <input name="Tz" placeholder="תעודת זהות" value={formData.Tz} onChange={handleChange} />

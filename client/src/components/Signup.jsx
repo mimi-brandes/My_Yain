@@ -51,7 +51,7 @@ const Signup = () => {
      //שורות קוד נוספות עבור הוספת לקוח דרך מנהל
      const location = useLocation();
      const { TypeMnager } = location.state || {};
-     
+
 
 
      const navigate = useNavigate();
@@ -87,12 +87,12 @@ const Signup = () => {
                return;
           }
           if (usersResponse) {
-               
+
                if (TypeMnager === 'yes') {
                     alert("הלקוח נוסף בהצלחה!");
                     navigate('/manager-dashboard', { state: { type: 'customers' } });
                     return;
-                }
+               }
                const newUser = {
                     ...userObject,          // כל הנתונים מהטופס
                     userType: "Customers",  // הוספת סוג משתמש
@@ -109,6 +109,13 @@ const Signup = () => {
           <div className="signup-container">
                <div className="overlay">
                     <img src="/images/logo.png" alt="logo" className="logo" />
+                    {/* כפתור חזרה שיוצג רק למנהלים */}
+                    {TypeMnager === 'yes' && (
+                         <div className="back-button-container">
+                              <button className="back-button"
+                              onClick={() => navigate('/manager-dashboard/customers')}> חזרה </button>
+                         </div>
+                    )}
                     <h1 className="title">ברוך הבא ל-MyYain</h1>
                     <p className="subtitle">שמחים שבחרת להירשם אלינו</p>
                     <form className="signup-form" onSubmit={tryToSignFinally}>
@@ -123,7 +130,7 @@ const Signup = () => {
                     </form>
                     <p className="switch-link">
                          כבר מחובר?
-                         <span className="spanLink" onClick={() => navigate('/managers-home')}>
+                         <span className="spanLink" onClick={() => navigate('/users/login')}>
                               התחבר
                          </span>
                     </p>

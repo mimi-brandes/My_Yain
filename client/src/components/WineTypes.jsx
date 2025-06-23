@@ -19,6 +19,11 @@ const WineTypes = () => {
 
   return (
     <div className="wine-types-container">
+      <div className="back-button-container">
+          <button className="back-button" onClick={() => navigate('/client-home')}>
+            חזרה
+          </button>
+        </div>
       <img src="/images/logo.png" alt="logo" className="logo" />
       <button className="cart-button" title="Go to Cart" onClick={() => navigate('/cart')}>
         <span className="cart-icon">🛒</span>

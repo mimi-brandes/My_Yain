@@ -5,18 +5,28 @@ import { useNavigate, useLocation } from 'react-router-dom';
 export const UserContext = createContext();
 
 function UserProvider({ children }) {
+
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const logout = () => {
+    localStorage.removeItem('type');
+    localStorage.removeItem('currentUserId');
+
+    setCurrentUser(null);
+    navigate('/')
+  }
+
   useEffect(() => {
     let isCancelled = false; // ביטול במידה והקומפוננטה מתפרקת
     const stored = localStorage.getItem('currentUserId');
+    if (!stored || stored === 'undefined' || stored === 'null') return;
     if (!stored) return; // אין צורך להמשיך אם אין מזהה
     let id = null;
     try {
       id = JSON.parse(stored);
-    } 
+    }
     catch (e) {
       console.error('תוכן לא חוקי ב-localStorage:', stored);
       localStorage.removeItem('currentUserId');
@@ -32,7 +42,6 @@ function UserProvider({ children }) {
         if (isCancelled) return; // עצור אם בוטל
 
         if (usersResponse) {
-          localStorage.removeItem('cart');
           setCurrentUser(usersResponse);
           if (location.pathname === '/') {
             switch (usersResponse.userType) {
@@ -72,7 +81,7 @@ function UserProvider({ children }) {
   }, []); // תלות ריקה - רוץ רק פעם אחת בהתחלה
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser, logout }}>
       {children}
     </UserContext.Provider>
   );

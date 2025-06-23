@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { fetchServer } from '../service/server';
 import { baseURL } from '../config';
 import '../css/ManagerDashboard.css';
@@ -11,14 +11,14 @@ const tableLabels = {
   wines: 'יינות',
   tours: 'סיורים',
   sales: 'הזמנות',
-  productsSold: 'יינות שהוזמנו'
+  productsSold: 'יינות שהוזמנו',
+  wineTypes: 'סוגי יין',
+  tourTypes: 'סוגי סיור'
 };
 
 const ManagerDashboard = () => {
-  const location = useLocation();
+  const { initialType } = useParams();
   const navigate = useNavigate();
-  const initialType = location.state?.type || '';
-  const [selectedType, setSelectedType] = useState(initialType);
   const [data, setData] = useState([]);
   const [editRowId, setEditRowId] = useState(null);
   const [editRowData, setEditRowData] = useState({});
@@ -34,28 +34,13 @@ const ManagerDashboard = () => {
     wines: { label: ' הוספת יין / סוג יין', path: '/add-wine' },
     guides: { label: 'הוספת מדריך', path: '/signup-manager-or-guide' },
     tours: { label: 'הוספת סיור', path: '/tours' },
-    // customers: { label: 'הוספת לקוח', path: '/users/signup' },
     customers: { label: 'הוספת לקוח', path: '/users/signup', fromManager: true },
     managers: { label: 'הוספת מנהל', path: '/signup-manager-or-guide' }
-  };
-  // פונקציה שמחזירה true אם מחרוזת נראית כמו תאריך תקני
-  const isDateString = (value) =>
-    typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value);
-
-  const formatDate = (value) => {
-    const date = new Date(value);
-    if (!isNaN(date.getTime())) {
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = String(date.getFullYear()).slice(-2);
-      return `${day}/${month}/${year}`;
-    }
-    return value;
   };
 
 
   const renderAddButton = () => {
-    const addInfo = addButtonsMap[selectedType];
+    const addInfo = addButtonsMap[initialType];
     if (!addInfo) return null;
 
     return (
@@ -71,25 +56,6 @@ const ManagerDashboard = () => {
           </button>)}
 
 
-        {/* {addInfo.label === 'הוספת מדריך' && (
-          <button
-            className="add-new-button"
-            onClick={() => navigate(addInfo.path, { state: { TypeMnager: '', returnToType: 'guides' } })}
-          >
-            {addInfo.label}
-          </button>
-        )}
-        {addInfo.label !== 'הוספת מדריך' && (
-          <button
-            className="add-new-button"
-            onClick={() => navigate(addInfo.path, { state: { TypeMnager: 'yes', returnToType: 'managers' } })}
-          >
-            {addInfo.label}
-          </button>
-        )} */}
-
-
-
 
         {initialType === 'tours' && (
           <button className="add-new-button" onClick={() => setShowTourTypeModal(true)}>
@@ -100,17 +66,17 @@ const ManagerDashboard = () => {
     );
   };
   useEffect(() => {
-    if (!selectedType) return;
-    if (!location.state?.type) {
+    if (!initialType) return;
+    if (!initialType) {
       alert('/');
       return;
     }
     const getData = async () => {
-      const response = await fetchServer(`/managers/${selectedType}`);
+      const response = await fetchServer(`/managers/${initialType}`);
       setData(response || []);
     };
     getData();
-  }, [selectedType]);
+  }, [initialType]);
 
   const handleEditClick = (row) => {
     const idColumn = Object.keys(row).find(key => key.toLowerCase().endsWith('id')) || 'Id';
@@ -125,7 +91,7 @@ const ManagerDashboard = () => {
   const handleSave = async () => {
 
     try {
-      const response = await fetchServer(`/managers/${selectedType}/update`, editRowData, 'POST');
+      const response = await fetchServer(`/managers/${initialType}/update`, editRowData, 'POST');
       if (response?.success) {
         const allColumns = Object.keys(data[0]);
 
@@ -166,9 +132,11 @@ const ManagerDashboard = () => {
         guides: 'Id',
         managers: 'Id',
         tours: 'TourID',
+        wineTypes: 'WineTypeID',
+        tourTypes: 'TourTypeID',
       };
-      const idFieldName = idFieldMap[selectedType] || 'Id';
-      const response = await fetchServer(`/managers/${selectedType}/delete`, { [idFieldName]: row[idColumn] }, 'POST');
+      const idFieldName = idFieldMap[initialType] || 'Id';
+      const response = await fetchServer(`/managers/${initialType}/delete`, { [idFieldName]: row[idColumn] }, 'POST');
       if (response?.success) {
         setData(data.filter(item => item[idColumn] !== row[idColumn]));
         alert('נמחק בהצלחה');
@@ -215,13 +183,9 @@ const ManagerDashboard = () => {
 
   const renderTable = () => {
     if (data.length === 0) return <p>לא נמצאו נתונים להצגה.</p>;
-
+    if (!data) return null;
     const allColumns = Object.keys(data[0]);
-    const isReadOnly = selectedType === 'productsSold' || selectedType === 'sales';
-
-
-    // const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id' || col.endsWith('ID');
-    // const columns = allColumns.filter(col => col !== idColumn);
+    const isReadOnly = initialType === 'productsSold' || initialType === 'sales';
     const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id';
     const columns = allColumns.filter(col => !/id$/i.test(col));
 
@@ -304,8 +268,8 @@ const ManagerDashboard = () => {
         {Object.entries(tableLabels).map(([key, label]) => (
           <button
             key={key}
-            className={`nav-tab-button ${selectedType === key ? 'active-tab' : ''}`}
-            onClick={() => setSelectedType(key)}
+            className={`nav-tab-button ${initialType === key ? 'active-tab' : ''}`}
+            onClick={() => navigate(`/manager-dashboard/${key}`)}
           >
             {label}
           </button>
@@ -315,7 +279,7 @@ const ManagerDashboard = () => {
       <div className="top-bar">
         {renderAddButton()}
       </div>
-      <h2>טבלת ניהול: {tableLabels[selectedType] || 'לא נבחרה קטגוריה'}</h2>
+      <h2>טבלת ניהול: {tableLabels[initialType] || 'לא נבחרה קטגוריה'}</h2>
       {renderTable()}
       {showTourTypeModal && (
         <div className="modal-backdrop">

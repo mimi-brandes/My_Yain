@@ -4,14 +4,10 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/ClientHome.css';
 const ClientHome = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear();
-    setCurrentUser(null);
-    navigate('/');
-  };
+
 
   return (
     <div className="home-container">

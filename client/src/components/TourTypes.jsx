@@ -19,6 +19,11 @@ const TourTypes = () => {
   return (
     <div className="tour-types-container">
       <div className="tour-overlay">
+      <div className="back-button-container">
+          <button className="back-button" onClick={() => navigate('/client-home')}>
+            חזרה
+          </button>
+        </div>
       <img src="/images/logo.png" alt="logo" className="logo" />
         <h1 className="tour-title">Please choose a tour type</h1>
         <div className="tour-grid">

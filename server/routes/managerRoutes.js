@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const managerControl = require('../control/managerControl');
-// router.use('/tours',)
 //הבאת כל היינות
 router.get('/wines',          managerControl.getAllWines);
 //הבאת כל המדריכים
@@ -14,7 +13,7 @@ router.get('/customers',          managerControl.getAllCustomers);
 router.get('/tours',          managerControl.getAllTours);
 //הבאת כל המכירות
 router.get('/sales',          managerControl.getAllSales);
-//הבאת כל המכירות
+//הבאת כל יינות שנמכרו
 router.get('/productsSold',          managerControl.getAllProductsSold);
 //הוספת מנהל
 router.post('/signup-manager',          managerControl.addManager);
@@ -40,5 +39,11 @@ router.post('/guides/delete',          managerControl.deleteGuide);
 router.post('/managers/delete',          managerControl.deleteManager);
 //מחיקת לקוח
 router.post('/customers/delete',          managerControl.deleteCustomer);
+router.get('/wineTypes', managerControl.getAllWineTypes);
+router.post('/wineTypes/update', managerControl.updateWineType);
+router.post('/wineTypes/delete', managerControl.deleteWineType);
 
+router.get('/tourTypes', managerControl.getAllTourTypes);
+router.post('/tourTypes/update', managerControl.updateTourType);
+router.post('/tourTypes/delete', managerControl.deleteTourType);
 module.exports = router;
