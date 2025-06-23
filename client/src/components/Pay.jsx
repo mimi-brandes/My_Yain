@@ -19,7 +19,6 @@ const Pay = () => {
   useEffect(() => {
     const ids = Object.keys(cart).map(Number);
     if (ids.length === 0) return setCartItems([]);
-
     fetchServer('/wines/by-ids', { ids }, 'POST')
       .then(data => {
         if (data) {
@@ -49,7 +48,8 @@ const Pay = () => {
       endPrice: total,
       cartItems: cartItems.map(i => ({
         productID: i.productID,
-        quantity: i.quantity
+        quantity: i.quantity,
+        Price: i.Price
       }))
     };
 

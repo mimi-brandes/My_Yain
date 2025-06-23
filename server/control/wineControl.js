@@ -72,28 +72,6 @@ const createSale = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-// יצירת יין חדש
-// const createWine = async (req, res) => {
-//   try {
-//     // const { wineName, price, quantity,wineTypeID,imageFile } = req.body;
-//     const wineName = req.body.wineName;
-//     const price = parseFloat(req.body.price);
-//     const quantity = parseInt(req.body.quantity);
-//     const wineTypeID = parseInt(req.body.wineTypeID);
-//     const imageFile = req.body.imageFile;
-//     console.log("BODY RECEIVED:", req.body);
-//     wineService.createWine(wineName, price, quantity, wineTypeID, imageFile, (err, result) => {
-//       if (err) {
-//         console.error('Error creating wine:', err);
-//         return res.status(500).json({ error: 'Internal server error' });
-//       }
-//       res.json({ message: 'wine completed', wineID: result });
-//     });
-//   } catch (err) {
-//     console.error('Error in createWine:', err);
-//     // res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
 const createWine = async (req, res) => {
   try {
     const wineName = req.body.wineName;
@@ -115,11 +93,32 @@ const createWine = async (req, res) => {
     res.status(500).json({ ok: false, error: 'Unexpected error' });
   }
 };
+const addWinetypes = async (req, res) => {
+  try {
+    
+    const WineTypeName = req.body.WineTypeName;
+    const ImageURL = req.body.ImageURL;
+    console.log(WineTypeName);
+    console.log(ImageURL);
 
+    wineService.addWinetypes(WineTypeName, ImageURL, (err, wineID) => {
+      if (err) {
+        console.error('❌ Error creating wine type:', err);
+        return res.status(500).json({ ok: false, error: 'Internal server error' });
+      }
+
+      res.json({ ok: true, wineID, message: 'Wine type added successfully' });
+    });
+  } catch (err) {
+    console.error('❌ Error in createWineType:', err);
+    res.status(500).json({ ok: false, error: 'Unexpected error' });
+  }
+};
 module.exports = {
   getAllWineTypes,
   getWinesByType,
   getWinesByIDs,
   createSale,
-  createWine
+  createWine,
+  addWinetypes
 };

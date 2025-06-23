@@ -32,8 +32,8 @@ const ManagerDashboard = () => {
 
   const addButtonsMap = {
     wines: { label: ' הוספת יין / סוג יין', path: '/add-wine' },
-    tours: { label: 'הוספת סיור', path: '/tours' },
     guides: { label: 'הוספת מדריך', path: '/signup-manager-or-guide' },
+    tours: { label: 'הוספת סיור', path: '/tours' },
     // customers: { label: 'הוספת לקוח', path: '/users/signup' },
     customers: { label: 'הוספת לקוח', path: '/users/signup', fromManager: true },
     managers: { label: 'הוספת מנהל', path: '/signup-manager-or-guide' }
@@ -60,15 +60,15 @@ const ManagerDashboard = () => {
 
     return (
       <div className="button-container">
-        {/* {addInfo.label === 'הוספת מדריך' && (
+        {addInfo.label === 'הוספת מדריך' && (
           <button className="add-new-button" onClick={() => navigate(addInfo.path, { state: { TypeMnager: '' } })}>
             {addInfo.label}
           </button>
         )}
-        {addInfo.label != 'הוספת מדריך' && (
+        {addInfo.label != 'הוספת מדריך' && addInfo.label !== 'הוספת סיור' && (
           <button className="add-new-button" onClick={() => navigate(addInfo.path, { state: { TypeMnager: 'yes' } })}>
             {addInfo.label}
-          </button>)} */}
+          </button>)}
 
 
         {/* {addInfo.label === 'הוספת מדריך' && (
@@ -89,44 +89,7 @@ const ManagerDashboard = () => {
         )} */}
 
 
-        {addInfo.label === 'הוספת מדריך' && (
-          <button
-            className="add-new-button"
-            onClick={() =>
-              navigate(addInfo.path, { state: { TypeMnager: '', returnToType: 'guides' } })
-            }
-          >
-            {addInfo.label}
-          </button>
-        )}
-        {addInfo.label === 'הוספת מנהל' && (
-          <button
-            className="add-new-button"
-            onClick={() =>
-              navigate(addInfo.path, { state: { TypeMnager: 'yes', returnToType: 'managers' } })
-            }
-          >
-            {addInfo.label}
-          </button>
-        )}
-        {addInfo.label === 'הוספת לקוח' && (
-          <button
-            className="add-new-button"
-            onClick={() =>
-              navigate(addInfo.path, { state: { returnToType: 'customers' } })
-            }
-          >
-            {addInfo.label}
-          </button>
-        )}
-        {addInfo.label !== 'הוספת מדריך' && addInfo.label !== 'הוספת מנהל' && addInfo.label !== 'הוספת לקוח' && (
-          <button
-            className="add-new-button"
-            onClick={() => navigate(addInfo.path)}
-          >
-            {addInfo.label}
-          </button>
-        )}
+
 
         {initialType === 'tours' && (
           <button className="add-new-button" onClick={() => setShowTourTypeModal(true)}>
@@ -165,6 +128,7 @@ const ManagerDashboard = () => {
       const response = await fetchServer(`/managers/${selectedType}/update`, editRowData, 'POST');
       if (response?.success) {
         const allColumns = Object.keys(data[0]);
+
         const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id';
 
         const updatedData = data.map(item =>
@@ -253,6 +217,9 @@ const ManagerDashboard = () => {
     if (data.length === 0) return <p>לא נמצאו נתונים להצגה.</p>;
 
     const allColumns = Object.keys(data[0]);
+    const isReadOnly = selectedType === 'productsSold' || selectedType === 'sales';
+
+
     // const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id' || col.endsWith('ID');
     // const columns = allColumns.filter(col => col !== idColumn);
     const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id';
@@ -268,7 +235,7 @@ const ManagerDashboard = () => {
               {columns.map((col, idx) => (
                 <th key={idx}>{col}</th>
               ))}
-              <th>פעולות</th>
+              {!isReadOnly && <th>פעולות</th>}
             </tr>
           </thead>
           <tbody>
@@ -302,19 +269,21 @@ const ManagerDashboard = () => {
                       )}
                     </td>
                   ))}
-                  <td className="action-cell">
-                    {isEditing ? (
-                      <>
-                        <button className="edit-btn" onClick={handleSave}>✔</button>
-                        <button className="delete-btn" onClick={handleCancel}>✖</button>
-                      </>
-                    ) : (
-                      <>
-                        <button className="edit-btn" onClick={() => handleEditClick(row)}>✏️</button>
-                        <button className="delete-btn" onClick={() => handleDelete(row, idColumn)}>❌</button>
-                      </>
-                    )}
-                  </td>
+                  {!isReadOnly && (
+                    <td className="action-cell">
+                      {isEditing ? (
+                        <>
+                          <button className="edit-btn" onClick={handleSave}>✔</button>
+                          <button className="delete-btn" onClick={handleCancel}>✖</button>
+                        </>
+                      ) : (
+                        <>
+                          <button className="edit-btn" onClick={() => handleEditClick(row)}>✏️</button>
+                          <button className="delete-btn" onClick={() => handleDelete(row, idColumn)}>❌</button>
+                        </>
+                      )}
+                    </td>
+                  )}
                 </tr>
               );
             })}
@@ -326,6 +295,23 @@ const ManagerDashboard = () => {
 
   return (
     <div className="manager-table-page">
+      <div className="back-button-container">
+        <button className="back-button" onClick={() => navigate('/managers-home')}>
+          חזרה
+        </button>
+      </div>
+      <div className="manager-nav-tabs">
+        {Object.entries(tableLabels).map(([key, label]) => (
+          <button
+            key={key}
+            className={`nav-tab-button ${selectedType === key ? 'active-tab' : ''}`}
+            onClick={() => setSelectedType(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       <div className="top-bar">
         {renderAddButton()}
       </div>

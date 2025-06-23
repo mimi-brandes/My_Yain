@@ -9,16 +9,37 @@ const getAllTours = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+// const bookTour = (req, res) => {
+//   console.log("📥 הגיעה בקשה להזמנת סיור:", req.body);
+//   toursService.bookTour(req.body, (err, newBooking) => {
+//     if (err) {
+//       console.error("❌ שגיאה בהזמנת סיור:", err);
+//       return res.status(500).json({ error: "Failed to book tour." });
+//     }
+//     res.status(201).json(newBooking); // מחזירים את פרטי ההזמנה שנוצרה
+//   });
+// };
 const bookTour = (req, res) => {
   console.log("📥 הגיעה בקשה להזמנת סיור:", req.body);
+
   toursService.bookTour(req.body, (err, newBooking) => {
     if (err) {
-      console.error("❌ שגיאה בהזמנת סיור:", err);
-      return res.status(500).json({ error: "Failed to book tour." });
+      console.warn("⚠️ שגיאה לוגית או מערכתית:", err);
+
+      // אם השגיאה היא אובייקט שמכיל סוג (type), נעשה הבחנה
+      if (typeof err === 'object' && err.type === 'logic') {
+        return res.status(200).json({ error: err.message });
+      }
+
+      // שגיאה אמיתית – כמו שדות חסרים, SQL וכו'
+      return res.status(400).json({ error: typeof err === 'string' ? err : 'שגיאה כללית בהזמנה' });
     }
-    res.status(201).json(newBooking); // מחזירים את פרטי ההזמנה שנוצרה
+
+    res.status(201).json(newBooking);
   });
 };
+
+
 const getToursByGuide = async (req, res) => {
   const guideID = req.params.Id;
   try {

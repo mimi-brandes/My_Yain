@@ -22,7 +22,7 @@
   padding: 40px 20px;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 800px;
 }
@@ -45,7 +45,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
 }
 
@@ -53,13 +53,34 @@
   transform: scale(1.03);
 }
 
-.wines-button     { background-image: url('/images/wine-bg.png'); }
-.tours-button     { background-image: url('/images/tours-bg.png'); }
-.guides-button    { background-image: url('/images/guide-bg.png'); }
-.managers-button  { background-image: url('/images/managers-bg.png'); }
-.customers-button { background-image: url('/images/customers-bg.png'); }
-.orders-button    { background-image: url('/images/order-bg.png'); }
-.booking-button { background-image: url('/images/booking-bg.png'); }
+.wines-button {
+  background-image: url('/images/wine-bg.png');
+}
+
+.tours-button {
+  background-image: url('/images/tours-bg.png');
+}
+
+.guides-button {
+  background-image: url('/images/guide-bg.png');
+}
+
+.managers-button {
+  background-image: url('/images/managers-bg.png');
+}
+
+.customers-button {
+  background-image: url('/images/customers-bg.png');
+}
+
+.orders-button {
+  background-image: url('/images/order-bg.png');
+}
+
+.booking-button {
+  background-image: url('/images/booking-bg.png');
+}
+
 .manager-button-text {
   color: white;
   font-size: 1.4rem;
@@ -78,6 +99,7 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
 .logo {
   width: 100px;
   animation: spin 10s linear infinite;
@@ -85,4 +107,31 @@
   position: absolute;
   top: 20px;
   left: 20px;
+}
+
+.manager-nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.nav-tab-button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #ddd;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-tab-button:hover {
+  background-color: #bbb;
+}
+
+.nav-tab-button.active-tab {
+  background-color: #8b0000;
+  /* צבע בורדו או כל צבע שתרצי */
+  color: white;
 }

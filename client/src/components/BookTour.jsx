@@ -96,13 +96,23 @@ const BookTour = () => {
       if(!response){
         alert("There was an error booking your tour. Please try again.");
       }
-      if (response) {
-        alert(`Thank you for booking the ${tourType} tour!`);
-        if(TypeMnager==''){navigate('/client-home');}
-        else {navigate('/manager-dashboard', { state: { type: 'tours' } });}
+      // if (response) {
+      //   alert(`Thank you for booking the ${tourType} tour!`);
+      //   if(TypeMnager==''){navigate('/client-home');}
+      //   else {navigate('/manager-dashboard', { state: { type: 'tours' } });}
         
+      // }
+      if (response.error) {
+        alert(response.error); // כאן תופיע ההודעה שהחזרת מהשרת – כמו "אין מדריכים זמינים ביום ובשעה אלו"
+        return;
       }
-    
+      
+      alert(`!הסיור "${tourType}" הוזמן בהצלחה`);
+      if (TypeMnager == '') {
+        navigate('/client-home');
+      } else {
+        navigate('/manager-dashboard', { state: { type: 'tours' } });
+      }
   };
 
   return (

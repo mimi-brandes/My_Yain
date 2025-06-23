@@ -62,11 +62,11 @@ const SignupManagerOrGuide = () => {
         return;
       }
       alert('נרשמת בהצלחה!');
-      // const typeToSent = '';
-      // if (TypeMnager === '') { typeToSent = 'guides'; }
-      // else { typeToSent = 'managers'; }
-      //  navigate('/manager-dashboard', { state: { type: typeToSent } });
-      navigate('/manager-dashboard', { state: { type: returnToType } });
+      let typeToSent = '';
+      if (TypeMnager === '') { typeToSent = 'guides'; }
+      else { typeToSent = 'managers'; }
+       navigate('/manager-dashboard', { state: { type: typeToSent } });
+      // navigate('/manager-dashboard', { state: { type: returnToType } });
     } catch (err) {
       alert('שגיאה בהרשמה');
       console.error('Error in handleSubmit:', err);

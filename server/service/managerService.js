@@ -255,6 +255,7 @@ const deleteCustomer = (Id, callback) => {
   const sql = 'DELETE FROM Customers WHERE Id=?';
   db.query(sql, [Id], callback);
 };
+
 module.exports = {
   getAllWines,
   getAllGuides,

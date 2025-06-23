@@ -50,7 +50,8 @@ function validateFormInputs({ Tz, FullName, Email, Password, Phone, Age, BirthDa
 const Signup = () => {
      //שורות קוד נוספות עבור הוספת לקוח דרך מנהל
      const location = useLocation();
-     const returnToType = location.state?.returnToType || null;
+     const { TypeMnager } = location.state || {};
+     
 
 
      const navigate = useNavigate();
@@ -86,13 +87,12 @@ const Signup = () => {
                return;
           }
           if (usersResponse) {
-               //שורות קוד נוספות עבור הוספת לקוח דרך מנהל
-               if (returnToType) {
+               
+               if (TypeMnager === 'yes') {
                     alert("הלקוח נוסף בהצלחה!");
-                    navigate('/manager-dashboard', { state: { type: returnToType } });
+                    navigate('/manager-dashboard', { state: { type: 'customers' } });
                     return;
-               }
-
+                }
                const newUser = {
                     ...userObject,          // כל הנתונים מהטופס
                     userType: "Customers",  // הוספת סוג משתמש

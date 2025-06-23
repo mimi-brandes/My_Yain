@@ -40,4 +40,5 @@ router.post('/guides/delete',          managerControl.deleteGuide);
 router.post('/managers/delete',          managerControl.deleteManager);
 //מחיקת לקוח
 router.post('/customers/delete',          managerControl.deleteCustomer);
+
 module.exports = router;

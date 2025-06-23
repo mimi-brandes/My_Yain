@@ -311,6 +311,7 @@ const deleteCustomer = (req, res) => {
         res.status(201).json({ success: true, message: 'הלקוח נמחק בהצלחה' });
     });
 };
+
   module.exports = {
     getAllWines,
     getAllGuides,
