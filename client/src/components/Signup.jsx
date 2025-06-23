@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/Signup.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { useContext } from 'react';
 import { fetchServer } from '../service/server';
@@ -48,6 +48,11 @@ function validateFormInputs({ Tz, FullName, Email, Password, Phone, Age, BirthDa
      return null; // הכל תקין
 }
 const Signup = () => {
+     //שורות קוד נוספות עבור הוספת לקוח דרך מנהל
+     const location = useLocation();
+     const returnToType = location.state?.returnToType || null;
+
+
      const navigate = useNavigate();
      const { setCurrentUser } = useContext(UserContext);
      const tryToSignFinally = async (e) => {
@@ -74,8 +79,20 @@ const Signup = () => {
                Age,
                BirthDate
           };
+          console.log('userObject:', userObject);
           const usersResponse = await fetchServer('/users', userObject, 'POST');
+          if (!usersResponse) {
+               alert('אירעה שגיאה בהרשמה');
+               return;
+          }
           if (usersResponse) {
+               //שורות קוד נוספות עבור הוספת לקוח דרך מנהל
+               if (returnToType) {
+                    alert("הלקוח נוסף בהצלחה!");
+                    navigate('/manager-dashboard', { state: { type: returnToType } });
+                    return;
+               }
+
                const newUser = {
                     ...userObject,          // כל הנתונים מהטופס
                     userType: "Customers",  // הוספת סוג משתמש

@@ -23,7 +23,8 @@ const validateInputs = (formData, isGuide) => {
 const SignupManagerOrGuide = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const TypeMnager = location.state?.TypeMnager || ''; 
+  const TypeMnager = location.state?.TypeMnager || '';
+  const returnToType = location.state?.returnToType || '';
 
   const [formData, setFormData] = useState({
     Tz: '',
@@ -40,11 +41,11 @@ const SignupManagerOrGuide = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const error = validateInputs(formData, TypeMnager === '');
     if (error) return alert(error);
-  
+
     try {
       const endpoint = TypeMnager === '' ? '/managers/signup-guide' : '/managers/signup-manager';
       const dataToSend = { ...formData };
@@ -53,25 +54,25 @@ const handleSubmit = async (e) => {
         delete dataToSend.StartHour;
         delete dataToSend.EndHour;
       }
-  
+
       const response = await fetchServer(endpoint, dataToSend, 'POST');
       // response הוא כבר JSON מפוענח, לכן נבדוק אם יש שגיאה
       if (response.error) {
         alert('שגיאה בהרשמה: ' + response.error);
         return;
       }
-  
       alert('נרשמת בהצלחה!');
-      const typeToSent='';
-           if(TypeMnager==='') {typeToSent='guides';}
-           else {typeToSent='managers';}
-             navigate('/manager-dashboard', { state: { type: typeToSent } });
+      // const typeToSent = '';
+      // if (TypeMnager === '') { typeToSent = 'guides'; }
+      // else { typeToSent = 'managers'; }
+      //  navigate('/manager-dashboard', { state: { type: typeToSent } });
+      navigate('/manager-dashboard', { state: { type: returnToType } });
     } catch (err) {
       alert('שגיאה בהרשמה');
       console.error('Error in handleSubmit:', err);
     }
   };
-  
+
   return (
     <div className="signup-container">
       <img src="/images/logo.png" alt="Logo" className="logo" />

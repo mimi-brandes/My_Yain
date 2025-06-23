@@ -34,32 +34,33 @@ const ManagerDashboard = () => {
     wines: { label: ' הוספת יין / סוג יין', path: '/add-wine' },
     tours: { label: 'הוספת סיור', path: '/tours' },
     guides: { label: 'הוספת מדריך', path: '/signup-manager-or-guide' },
-    customers: { label: 'הוספת לקוח', path: '/users/signup' },
+    // customers: { label: 'הוספת לקוח', path: '/users/signup' },
+    customers: { label: 'הוספת לקוח', path: '/users/signup', fromManager: true },
     managers: { label: 'הוספת מנהל', path: '/signup-manager-or-guide' }
   };
-// פונקציה שמחזירה true אם מחרוזת נראית כמו תאריך תקני
-const isDateString = (value) =>
-  typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value);
+  // פונקציה שמחזירה true אם מחרוזת נראית כמו תאריך תקני
+  const isDateString = (value) =>
+    typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value);
 
-const formatDate = (value) => {
-  const date = new Date(value);
-  if (!isNaN(date.getTime())) {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear()).slice(-2);
-    return `${day}/${month}/${year}`;
-  }
-  return value;
-};
+  const formatDate = (value) => {
+    const date = new Date(value);
+    if (!isNaN(date.getTime())) {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = String(date.getFullYear()).slice(-2);
+      return `${day}/${month}/${year}`;
+    }
+    return value;
+  };
 
-  
+
   const renderAddButton = () => {
     const addInfo = addButtonsMap[selectedType];
     if (!addInfo) return null;
 
     return (
       <div className="button-container">
-        {addInfo.label === 'הוספת מדריך' && (
+        {/* {addInfo.label === 'הוספת מדריך' && (
           <button className="add-new-button" onClick={() => navigate(addInfo.path, { state: { TypeMnager: '' } })}>
             {addInfo.label}
           </button>
@@ -67,7 +68,66 @@ const formatDate = (value) => {
         {addInfo.label != 'הוספת מדריך' && (
           <button className="add-new-button" onClick={() => navigate(addInfo.path, { state: { TypeMnager: 'yes' } })}>
             {addInfo.label}
-          </button>)}
+          </button>)} */}
+
+
+        {/* {addInfo.label === 'הוספת מדריך' && (
+          <button
+            className="add-new-button"
+            onClick={() => navigate(addInfo.path, { state: { TypeMnager: '', returnToType: 'guides' } })}
+          >
+            {addInfo.label}
+          </button>
+        )}
+        {addInfo.label !== 'הוספת מדריך' && (
+          <button
+            className="add-new-button"
+            onClick={() => navigate(addInfo.path, { state: { TypeMnager: 'yes', returnToType: 'managers' } })}
+          >
+            {addInfo.label}
+          </button>
+        )} */}
+
+
+        {addInfo.label === 'הוספת מדריך' && (
+          <button
+            className="add-new-button"
+            onClick={() =>
+              navigate(addInfo.path, { state: { TypeMnager: '', returnToType: 'guides' } })
+            }
+          >
+            {addInfo.label}
+          </button>
+        )}
+        {addInfo.label === 'הוספת מנהל' && (
+          <button
+            className="add-new-button"
+            onClick={() =>
+              navigate(addInfo.path, { state: { TypeMnager: 'yes', returnToType: 'managers' } })
+            }
+          >
+            {addInfo.label}
+          </button>
+        )}
+        {addInfo.label === 'הוספת לקוח' && (
+          <button
+            className="add-new-button"
+            onClick={() =>
+              navigate(addInfo.path, { state: { returnToType: 'customers' } })
+            }
+          >
+            {addInfo.label}
+          </button>
+        )}
+        {addInfo.label !== 'הוספת מדריך' && addInfo.label !== 'הוספת מנהל' && addInfo.label !== 'הוספת לקוח' && (
+          <button
+            className="add-new-button"
+            onClick={() => navigate(addInfo.path)}
+          >
+            {addInfo.label}
+          </button>
+        )}
+
         {initialType === 'tours' && (
           <button className="add-new-button" onClick={() => setShowTourTypeModal(true)}>
             הוספת סוג סיור
@@ -100,24 +160,25 @@ const formatDate = (value) => {
   };
 
   const handleSave = async () => {
- 
+
     try {
       const response = await fetchServer(`/managers/${selectedType}/update`, editRowData, 'POST');
       if (response?.success) {
         const allColumns = Object.keys(data[0]);
         const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id';
-  
+
         const updatedData = data.map(item =>
           item[idColumn] === editRowData[idColumn] ? editRowData : item
         );
-  
+
         setData(updatedData);
         setEditRowId(null);
         setEditRowData({});
         alert('הנתונים עודכנו בהצלחה!');
       } else {
         alert('אירעה שגיאה בעדכון');
-      }}
+      }
+    }
     catch {
       alert('שגיאה בתקשורת עם השרת');
     }
@@ -143,7 +204,7 @@ const formatDate = (value) => {
         tours: 'TourID',
       };
       const idFieldName = idFieldMap[selectedType] || 'Id';
-      const response = await fetchServer(`/managers/${selectedType}/delete`, {  [idFieldName]: row[idColumn] }, 'POST');
+      const response = await fetchServer(`/managers/${selectedType}/delete`, { [idFieldName]: row[idColumn] }, 'POST');
       if (response?.success) {
         setData(data.filter(item => item[idColumn] !== row[idColumn]));
         alert('נמחק בהצלחה');
@@ -192,9 +253,10 @@ const formatDate = (value) => {
     if (data.length === 0) return <p>לא נמצאו נתונים להצגה.</p>;
 
     const allColumns = Object.keys(data[0]);
-    const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id'||col.endsWith('ID');
-   
-    const columns = allColumns.filter(col => col !== idColumn);
+    // const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id' || col.endsWith('ID');
+    // const columns = allColumns.filter(col => col !== idColumn);
+    const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id';
+    const columns = allColumns.filter(col => !/id$/i.test(col));
 
     return (
       <div className='manager-dashboard-container'>
@@ -225,7 +287,7 @@ const formatDate = (value) => {
                           onChange={(e) => handleInputChange(col, e.target.value)}
                         />
                       ) : (
-                        typeof row[col] === 'string' && (row[col].endsWith('.webp') ||row[col].endsWith('.jfif') ||row[col].endsWith('.jpg') || row[col].endsWith('.png') || row[col].endsWith('.jpeg')) ? (
+                        typeof row[col] === 'string' && (row[col].endsWith('.webp') || row[col].endsWith('.jfif') || row[col].endsWith('.jpg') || row[col].endsWith('.png') || row[col].endsWith('.jpeg')) ? (
                           <img
                             src={`${baseURL}/${row[col]}`}
                             alt="תמונה"
@@ -233,9 +295,9 @@ const formatDate = (value) => {
                           />
                           // ) : isDateString(row[col]) ? (
                           //   formatDate(row[col])
-                          ) : (
-                            row[col]
-                          )
+                        ) : (
+                          row[col]
+                        )
 
                       )}
                     </td>
