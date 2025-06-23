@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const managerControl = require('../control/managerControl');
+// router.use('/tours',)
 //הבאת כל היינות
 router.get('/wines',          managerControl.getAllWines);
 //הבאת כל המדריכים

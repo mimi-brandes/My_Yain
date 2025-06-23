@@ -18,8 +18,8 @@ const getUser = (Tz, Password, callback) => {
   };
 
   const getUserById = (id,type,callback) => {
-    const sql = `SELECT * FROM AllUsers WHERE Id = ? LIMIT 1`;
-    db.query(sql, [id], (err, results) => {
+    const sql = `SELECT * FROM AllUsers WHERE Id = ? and userType COLLATE utf8mb4_0900_ai_ci = ? LIMIT 1`;
+    db.query(sql, [id,type], (err, results) => {
       if (err) {
         console.error("❌ שגיאה במסד נתונים:", err);
         return callback(err);

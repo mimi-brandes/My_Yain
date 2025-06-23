@@ -35,4 +35,18 @@ const getToursByGuide = async (req, res) => {
   }
 };
 
-module.exports = { getAllTours,bookTour,getToursByGuide};
+       const updateTourFeedback = async (req, res) => {
+        try {
+          toursService.updateTourFeedback(req.body, (err, data) => {
+            if (err) {
+              console.error('❌ שגיאה עידכון פידבאק :', err.message);
+              return res.status(400).json({ error: err.message || 'שגיאה פנימית' });
+            }
+            res.json({ success: true, data });
+          });
+        } catch (err) {
+          console.error('🛑 שגיאה כללית ב-Try של :', err.message);
+          res.status(500).json({ error: 'שגיאה פנימית בשרת' });
+        }
+      };
+module.exports = { getAllTours,bookTour,getToursByGuide,updateTourFeedback};

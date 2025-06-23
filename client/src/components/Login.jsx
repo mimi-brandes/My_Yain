@@ -12,8 +12,8 @@ const Login = () => {
     const usersResponse = await fetchServer("/users/login", { Tz: e.target.Tz.value, Password: e.target.Password.value }, 'POST');
     // מביא נתונים מהשרת ולבינתים י עצירה להמשך התוכנית
     if (usersResponse) {
-      localStorage.setItem("currentUserId", JSON.stringify(usersResponse.Id));
-      localStorage.setItem("type", JSON.stringify(usersResponse.userType));
+      localStorage.setItem("currentUserId", usersResponse.Id);
+      localStorage.setItem("type", usersResponse.userType);
       setCurrentUser(usersResponse); // שמירת פרטי המשתמש
       switch (usersResponse.userType) {
         case "Customers":

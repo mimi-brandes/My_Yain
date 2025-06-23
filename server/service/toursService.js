@@ -97,7 +97,6 @@ const getAllTours = (callback) => {
 const bookTour = (data, callback) => {
   const { groupSize, groupName, tourHour, tourDate, notes, TourTypeID, CustomerID } = data;
 
-  console.log("📥 Starting booking with data:", data);
 
   // בדיקת נתונים חסרים
   if (!groupSize || !groupName || !tourHour || !tourDate || !TourTypeID || !CustomerID) {
@@ -110,7 +109,7 @@ const bookTour = (data, callback) => {
     CALL AssignGuideForTour(?, ?, @out_GuideID, @out_error);
     SELECT @out_GuideID AS GuideID, @out_error AS Err;
   `;
-
+console.log(procCall);
   db.query(procCall, [tourDate, tourHour], (err, results) => {
     if (err) {
       console.error("❌ שגיאה בבחירת מדריך:", err);
@@ -183,4 +182,11 @@ const getToursByGuide = (guideID, callback) => {
     callback(null, results);
   });
 };
-module.exports = { getAllTours, bookTour,getToursByGuide };
+const updateTourFeedback = (data, callback) => {
+  const {TourID,GuideFeedback  } = data;
+      const sql = `
+        UPDATE Tours SET GuideFeedback=? WHERE TourID=?
+      `;
+      db.query(sql,[GuideFeedback,TourID ],callback);
+    } ;
+module.exports = { getAllTours, bookTour,getToursByGuide,updateTourFeedback };

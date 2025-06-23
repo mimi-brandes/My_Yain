@@ -1,10 +1,28 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState,useEffect } from 'react';
+
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState({});   // { wineID: quantity }
+  const [cart, setCart] = useState({});  
+    // 🟡 טוען את הסל מה-localStorage כאשר האפליקציה עולה
+    useEffect(() => {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        try {
+          setCart(JSON.parse(savedCart));
+        } catch (e) {
+          console.error('סל לא תקין ב-localStorage:', e);
+          localStorage.removeItem('cart');
+        }
+      }
+    }, []);
+  
+    // 🟢 שומר את הסל ב-localStorage בכל שינוי
+    useEffect(() => {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
   //הוספת פריט לסל
   const addToCart = (wineID, qty) => {
     if (qty <= 0) return;
