@@ -1,5 +1,4 @@
 const wineService = require('../service/wineService');
-
 /** כל סוגי היין */
 const getAllWineTypes = async (req, res) => {
   try {

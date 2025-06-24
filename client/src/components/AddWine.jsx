@@ -87,7 +87,6 @@ const AddWine = () => {
     };
 
     try {
-      console.log(formData);
       const response = await fetchServer('/wines/addType', formData, 'POST');
 
       if (!response.ok) throw new Error('Failed to add wine type');

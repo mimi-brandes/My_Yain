@@ -27,7 +27,6 @@ function validateBookingInputs({ groupSize, tourDate, tourHour }) {
       return "אנא בחר שעת תור";
     }
 
-    // השעה מהטופס היא מחרוזת כמו "14:30"
     const [hour, minute] = tourHour.split(':').map(Number);
 
     const now = new Date();
@@ -50,21 +49,16 @@ const BookTour = () => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
   const { tourType, PricePerPerson,TourTypeID ,TypeMnager} = location.state || { tourType: 'Unknown Tour', PricePerPerson: 0 ,TourTypeID:'',TypeMnager:''};
-  // מצב חדש לשמירת כמות האנשים
   const [groupSize, setGroupSize] = useState("");
-  // מצב חדש לשמירת סך התשלום
   const [totalPrice, setTotalPrice] = useState(0);
-  // useEffect שירוץ בכל פעם ש-groupSize או PricePerPerson משתנים
-  console.log(TypeMnager);
   useEffect(() => {
-    const size = parseInt(groupSize); // המר את groupSize למספר שלם
+    const size = parseInt(groupSize); 
     if (!isNaN(size) && size > 0 && PricePerPerson > 0) {
       setTotalPrice(size * PricePerPerson);
     } else {
-      setTotalPrice(0); // אם הקלט לא תקין, אפס את הסכום
+      setTotalPrice(0); 
     }
-  }, [groupSize, PricePerPerson]); // תלויות: הפעל מחדש כשאחד מאלה משתנה
-
+  }, [groupSize, PricePerPerson]); 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -92,18 +86,12 @@ const BookTour = () => {
     };
    
       // נשלח את פרטי ההזמנה לשרת
-      const response = await fetchServer('/tours/book', bookingDetails, 'POST'); // נניח שהנתיב הוא 'tours/book'
+      const response = await fetchServer('/tours/book', bookingDetails, 'POST'); 
       if(!response){
         alert("There was an error booking your tour. Please try again.");
       }
-      // if (response) {
-      //   alert(`Thank you for booking the ${tourType} tour!`);
-      //   if(TypeMnager==''){navigate('/client-home');}
-      //   else {navigate('/manager-dashboard', { state: { type: 'tours' } });}
-        
-      // }
       if (response.error) {
-        alert(response.error); // כאן תופיע ההודעה שהחזרת מהשרת – כמו "אין מדריכים זמינים ביום ובשעה אלו"
+        alert(response.error);
         return;
       }
       
@@ -135,9 +123,9 @@ const BookTour = () => {
             name="GroupSize"
             placeholder="Group Size"
             required
-            min="1" // וודא שזה לפחות 1
-            value={groupSize} // השדה מקבל את הערך ממצב ה-groupSize
-            onChange={(e) => setGroupSize(e.target.value)} // עדכן את מצב ה-groupSize בכל שינוי
+            min="1"
+            value={groupSize} 
+            onChange={(e) => setGroupSize(e.target.value)} 
           />
           <input type="text" name="GroupName" placeholder="Group Name" required />
           <input type="time" name="TourHour" placeholder="Tour Hour" required />

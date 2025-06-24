@@ -13,7 +13,6 @@ function UserProvider({ children }) {
   const logout = () => {
     localStorage.removeItem('type');
     localStorage.removeItem('currentUserId');
-
     setCurrentUser(null);
     navigate('/')
   }
@@ -39,8 +38,7 @@ function UserProvider({ children }) {
       try {
         const type = localStorage.getItem('type');
         const usersResponse = await fetchServer(`/users/relogin`, { id, type }, 'POST');
-        if (isCancelled) return; // עצור אם בוטל
-
+        if (isCancelled) return; 
         if (usersResponse) {
           setCurrentUser(usersResponse);
           if (location.pathname === '/') {

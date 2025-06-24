@@ -55,7 +55,6 @@ const SignupManagerOrGuide = () => {
       }
 
       const response = await fetchServer(endpoint, dataToSend, 'POST');
-      // response הוא כבר JSON מפוענח, לכן נבדוק אם יש שגיאה
       if (response.error) {
         alert('שגיאה בהרשמה: ' + response.error);
         return;

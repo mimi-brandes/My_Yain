@@ -19,7 +19,6 @@ export async function fetchServer(LinkToServer, dataToServer = {}, method = "GET
     return await response.json();
   } catch (error) {
     alert('somthing failed');
-    console.log('Error fetching data:', error);
     return { error: 'שגיאת תקשורת עם השרת' };
   }
 }

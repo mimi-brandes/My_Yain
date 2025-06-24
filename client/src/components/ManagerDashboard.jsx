@@ -54,9 +54,6 @@ const ManagerDashboard = () => {
           <button className="add-new-button" onClick={() => navigate(addInfo.path, { state: { TypeMnager: 'yes' } })}>
             {addInfo.label}
           </button>)}
-
-
-
         {initialType === 'tours' && (
           <button className="add-new-button" onClick={() => setShowTourTypeModal(true)}>
             הוספת סוג סיור
@@ -94,9 +91,7 @@ const ManagerDashboard = () => {
       const response = await fetchServer(`/managers/${initialType}/update`, editRowData, 'POST');
       if (response?.success) {
         const allColumns = Object.keys(data[0]);
-
         const idColumn = allColumns.find(col => col.toLowerCase().endsWith('id')) || 'Id';
-
         const updatedData = data.map(item =>
           item[idColumn] === editRowData[idColumn] ? editRowData : item
         );
@@ -120,8 +115,6 @@ const ManagerDashboard = () => {
   };
 
   const handleDelete = async (row, idColumn) => {
-    console.log(idColumn);
-    console.log(row[idColumn]);
     const confirmDelete = window.confirm('האם את בטוחה שברצונך למחוק את הרשומה?');
     if (!confirmDelete) return;
 
@@ -193,7 +186,6 @@ const ManagerDashboard = () => {
       <div className='manager-dashboard-container'>
         <img src="/images/logo.png" alt="logo" className="logo" />
         <table className="dynamic-table">
-
           <thead>
             <tr>
               {columns.map((col, idx) => (
@@ -224,8 +216,6 @@ const ManagerDashboard = () => {
                             alt="תמונה"
                             className="table-image"
                           />
-                          // ) : isDateString(row[col]) ? (
-                          //   formatDate(row[col])
                         ) : (
                           row[col]
                         )

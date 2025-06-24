@@ -59,8 +59,6 @@ const bookTour = (data, callback) => {
         return callback('שגיאה פנימית: לא נבחר מדריך למרות שאין שגיאה בפרוצדורה'); // שגיאה אמיתית
       }
 
-      console.log("🧭 מדריך שנבחר:", GuideID);
-
       // ✅ שלב 3: הכנסת ההזמנה לטבלת Tours
       const sqlInsert = `
         INSERT INTO Tours 

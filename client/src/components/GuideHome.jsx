@@ -7,8 +7,6 @@ const GuideHome = () => {
   const { currentUser, logout} = useContext(UserContext);
   const navigate = useNavigate();
 
-  
-
   return (
     <div className="guide-home-container">
       <img src="/images/logo.png" alt="logo" className="guide-logo" />

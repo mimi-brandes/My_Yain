@@ -8,13 +8,12 @@ const Login = () => {
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext);
   const tryToLogin = async (e) => {
-    e.preventDefault(); // מניעת רענון הדף  
+    e.preventDefault(); 
     const usersResponse = await fetchServer("/users/login", { Tz: e.target.Tz.value, Password: e.target.Password.value }, 'POST');
-    // מביא נתונים מהשרת ולבינתים י עצירה להמשך התוכנית
     if (usersResponse) {
       localStorage.setItem("currentUserId", usersResponse.Id);
       localStorage.setItem("type", usersResponse.userType);
-      setCurrentUser(usersResponse); // שמירת פרטי המשתמש
+      setCurrentUser(usersResponse); 
       switch (usersResponse.userType) {
         case "Customers":
           navigate('/client-home'); 

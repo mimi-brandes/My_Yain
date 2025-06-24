@@ -7,8 +7,6 @@ const ManagerHome = () => {
   const { currentUser, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
-
-
   return (
     <div className="manager-home-container">
       <img src="/images/logo.png" alt="logo" className="manager-logo" />

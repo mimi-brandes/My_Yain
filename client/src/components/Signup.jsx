@@ -48,12 +48,8 @@ function validateFormInputs({ Tz, FullName, Email, Password, Phone, Age, BirthDa
      return null; // הכל תקין
 }
 const Signup = () => {
-     //שורות קוד נוספות עבור הוספת לקוח דרך מנהל
      const location = useLocation();
      const { TypeMnager } = location.state || {};
-
-
-
      const navigate = useNavigate();
      const { setCurrentUser } = useContext(UserContext);
      const tryToSignFinally = async (e) => {
@@ -80,7 +76,6 @@ const Signup = () => {
                Age,
                BirthDate
           };
-          console.log('userObject:', userObject);
           const usersResponse = await fetchServer('/users', userObject, 'POST');
           if (!usersResponse) {
                alert('אירעה שגיאה בהרשמה');

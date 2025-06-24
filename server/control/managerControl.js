@@ -107,13 +107,11 @@ const getAllProductsSold = async (req, res) => {
 
 const addManager = async (req, res) => {
   try {
-    console.log("📥 בקשת הרשמה של מנהל:", req.body);
     managerService.addManager(req.body, (err, data) => {
       if (err) {
         console.error('❌ שגיאה בהרשמה למנהל:', err.message);
         return res.status(400).json({ error: err.message || 'שגיאה פנימית' });
       }
-      console.log("✅ מנהל נוסף בהצלחה:", data);
       res.json(data);
     });
   } catch (err) {
@@ -124,13 +122,11 @@ const addManager = async (req, res) => {
 
 const addGuide = async (req, res) => {
   try {
-    console.log("📥 בקשת הרשמה של מדריך:", req.body);
     managerService.addGuide(req.body, (err, data) => {
       if (err) {
         console.error('❌ שגיאה בהרשמה למדריך:', err.message);
         return res.status(400).json({ error: err.message || 'שגיאה פנימית' });
       }
-      console.log("✅ מדריך נוסף בהצלחה:", data);
       res.json(data);
     });
   } catch (err) {

@@ -9,7 +9,6 @@ const TourTypes = () => {
   const location = useLocation();
   const {TypeMnager } = location.state || {TypeMnager:''};
   const [tours, setTours] = useState([]);
-  console.log(TypeMnager);
   useEffect(() => {
     fetchServer('/tours')
       .then(data => {
@@ -29,7 +28,6 @@ const TourTypes = () => {
         <div className="tour-grid">
           {tours.map((tour, index) => (
             <button key={index} onClick={()=>navigate('/book-tour', { state: { tourType: tour.TourTypeName,PricePerPerson:tour.PricePerPerson,TourTypeID:tour.TourTypeID ,TypeMnager:TypeMnager} })}>
-              {console.log(tour.TourTypeID)}
               <div
                 className="tour-card"
                 style={{ backgroundImage: `url(${baseURL}/${tour.ImageURL})` }}>

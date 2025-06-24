@@ -7,7 +7,6 @@ app.use(express.json());
 app.use(cors())
 app.use(express.static('public'));
 
-// const users=require('./routes/userRoutes');
 const path = require('path');
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 const userRoutes = require(path.join(__dirname, 'routes', 'usersRoutes'));

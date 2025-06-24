@@ -101,6 +101,11 @@ const Pay = () => {
 
   return (
     <div className="image-button-container">
+      <div className="back-button-container">
+          <button className="back-button" onClick={() => navigate('/cart')}>
+            חזרה
+          </button>
+        </div>
       <img src="/images/logo.png" alt="logo" className="logo" />
      <img src="/images/pay.png" alt="Pay" className="main-image" />
       <button className="checkout-button" onClick={handleClick}>Pay Now</button>

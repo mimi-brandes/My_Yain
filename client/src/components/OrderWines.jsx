@@ -50,6 +50,11 @@ function OrderWines() {
 
   return (
     <div className="order-wines-container">
+      <div className="back-button-container">
+          <button className="back-button" onClick={() => navigate('/wines')}>
+            בחירת סוג יין
+          </button>
+        </div>
       <img src="/images/logo.png" alt="logo" className="logo" />
       <button className="cart-button" title="Go to Cart" onClick={() => navigate('/cart')}>
         <span className="cart-icon">🛒</span>

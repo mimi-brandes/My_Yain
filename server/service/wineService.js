@@ -44,7 +44,6 @@ const createSale = (customerID, cartItems, endPrice, callback) => {
   db.query(sqlSale, [customerID, endPrice], (err, result) => {
     if (err) return callback(err);
     const saleID = result.insertId;
-    console.log(cartItems);
     const values = cartItems.map(item => [saleID, item.productID, item.quantity, item.Price]);
 
     const sqlItems = `INSERT INTO ProductsSold (SoldId, ProductId, Quantity, PriceSold) VALUES ?`;
@@ -52,8 +51,6 @@ const createSale = (customerID, cartItems, endPrice, callback) => {
     db.query(sqlItems, [values], (err2) => {
       if (err2) return callback(err2);
 
-      // כאן נבצע עדכון של כמויות ב-WineProducts
-      // עבור כל מוצר - נוריד מהכמות את הכמות שנמכרה
       const updateQueries = cartItems.map(item => {
         return new Promise((resolve, reject) => {
           const sqlUpdate = `
@@ -97,8 +94,6 @@ const createWine = (wineName, price, quantity, wineTypeID, imageFile, callback) 
         console.error("❌ Error inserting into WineProducts:", err2);
         return callback(err2);
       }
-
-      console.log("✅ Wine added with ID:", result2.insertId);
       callback(null, result2.insertId);
     });
   });

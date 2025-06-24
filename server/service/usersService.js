@@ -51,14 +51,3 @@ module.exports = {
     createUser,
     getUserById
 };
-// // עדכון משתמש
-// const updateUser = (user_id, userData, callback) => {
-//     const { user_name, user_email, adress, phone } = userData;
-//     const sql = 'UPDATE users SET user_name=?, user_email=?, adress=?, phone=? WHERE user_id=?';
-//     db.query(sql, [user_name, user_email, adress, phone, user_id], callback);
-// };
-// // מחיקת משתמש
-// const deleteUser = (user_id, callback) => {
-//     const sql = 'DELETE FROM users WHERE user_id=?';
-//     db.query(sql, [user_id], callback);
-// };

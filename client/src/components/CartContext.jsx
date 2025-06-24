@@ -27,12 +27,12 @@ export const CartProvider = ({ children }) => {
           localStorage.removeItem(key);
         }
       } else {
-        setCart({}); // אין סל שמור
+        setCart({}); 
       }
     }
   }, [currentUser]);
 
-  // 🟢 שמירת הסל ב-localStorage בכל שינוי
+
   useEffect(() => {
     if (currentUser?.Id) {
       try {
