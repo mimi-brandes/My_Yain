@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
 import { UserContext } from '../userContext';
 import { fetchServer } from '../service/server';
+import { baseURL } from '../config';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import '../css/Pay.css';
@@ -58,7 +59,7 @@ const Pay = () => {
       //יצירת פידיאפ של פרטי התשלום
       const doc = new jsPDF();
       const orderNumber = generateOrderNumber();
-    
+
       const logoImg = new Image();
       logoImg.src = '/images/logo.png';
 
@@ -91,8 +92,19 @@ const Pay = () => {
         doc.save('invoice.pdf');
 
         alert('Thank you for your purchase!');
-        clearCart();
-        navigate('/client-home');
+        //  השמעת הצליל
+        const victorySound = new Audio(`${baseURL}/sounds/victory.mp3`);
+        victorySound.load();
+        victorySound.oncanplaythrough = () => {
+          victorySound.play().catch(console.error);
+        };
+        victorySound.play();
+
+        // מחכים לפני מעבר עמוד
+        setTimeout(() => {
+          clearCart();
+          navigate('/client-home');
+        }, 2000);
       };
     } else {
       alert('An error occurred while processing your payment');
@@ -102,12 +114,12 @@ const Pay = () => {
   return (
     <div className="image-button-container">
       <div className="back-button-container">
-          <button className="back-button" onClick={() => navigate('/cart')}>
-            חזרה
-          </button>
-        </div>
+        <button className="back-button" onClick={() => navigate('/cart')}>
+          חזרה
+        </button>
+      </div>
       <img src="/images/logo.png" alt="logo" className="logo" />
-     <img src="/images/pay.png" alt="Pay" className="main-image" />
+      <img src="/images/pay.png" alt="Pay" className="main-image" />
       <button className="checkout-button" onClick={handleClick}>Pay Now</button>
     </div>
   );

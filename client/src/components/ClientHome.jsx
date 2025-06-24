@@ -1,11 +1,12 @@
-import React from 'react';
-import { UserContext } from '../userContext';
-import { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../userContext';
 import '../css/ClientHome.css';
+
 const ClientHome = () => {
   const { currentUser, logout } = useContext(UserContext);
   const navigate = useNavigate();
+  const [showVideo, setShowVideo] = useState(false);
 
 
 
@@ -22,7 +23,33 @@ const ClientHome = () => {
             <span className="button-text">הסיורים שלנו</span>
           </div>
         </div>
-        <button onClick={logout} className="logout-button">התנתקות</button>
+        {/* <button onClick={logout} className="logout-button">התנתקות</button> */}
+
+        <div className="extra-buttons">
+          <button onClick={() => setShowVideo(true)} className="video-button">
+            צפייה ביקב שלנו 🎥
+          </button>
+          <button onClick={logout} className="logout-button">התנתקות</button>
+        </div>
+
+        {/* מודל לצפייה בסרטון */}
+        {showVideo && (
+          <div className="video-modal">
+            <div className="video-content">
+              <span className="close-button" onClick={() => setShowVideo(false)}>×</span>
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/tS5grepeEnA"
+                title="סרטון היקב שלנו"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        )}
+
         <div className="contact-section">
           <h2>צור קשר</h2>
           <p>📞 052-1234567</p>
